@@ -1,43 +1,104 @@
 import Link from "next/link";
-import { ArrowRight, CheckCircle2, FileText, Wrench } from "lucide-react";
+import {
+  ArrowRight,
+  Check,
+  FileCheck2,
+  FileText,
+  MapPin,
+  ShieldCheck,
+  Stethoscope,
+  Wrench,
+} from "lucide-react";
 import { Brand } from "@/components/brand";
 import { RecoveryRedirect } from "@/components/recovery-redirect";
+import { ThemeToggle } from "@/components/theme-toggle";
+
+const journey = [
+  { label: "Symptom", icon: Stethoscope },
+  { label: "Shop", icon: MapPin },
+  { label: "Repair", icon: Wrench },
+  { label: "Invoice", icon: FileText },
+  { label: "History", icon: FileCheck2 },
+];
 
 export default function Home() {
   return (
-    <main className="min-h-screen bg-[#f6f6f2]">
+    <main className="home-page">
       <RecoveryRedirect />
-      <header className="mx-auto flex max-w-7xl items-center justify-between px-5 py-6 lg:px-8">
-        <Brand />
-        <nav className="flex items-center gap-3" aria-label="Account">
-          <Link className="btn btn-ghost" href="/login">Log in</Link>
-          <Link className="btn btn-primary" href="/signup">Create account</Link>
-        </nav>
+      <header className="home-header">
+        <div className="home-header-inner">
+          <Brand />
+          <nav className="home-account-nav" aria-label="Account">
+            <ThemeToggle />
+            <Link className="home-login" href="/login">Log in</Link>
+            <Link className="home-create-account" href="/signup">Create account</Link>
+          </nav>
+        </div>
       </header>
-      <section className="mx-auto grid max-w-7xl gap-12 px-5 pb-20 pt-16 lg:grid-cols-[1.05fr_.95fr] lg:px-8 lg:pt-24">
-        <div className="max-w-2xl">
-          <span className="eyebrow">Your car’s complete story</span>
-          <h1 className="mt-5 text-5xl font-semibold tracking-[-.055em] text-charcoal sm:text-6xl lg:text-7xl">Every repair.<br />One clear record.</h1>
-          <p className="mt-6 max-w-xl text-lg leading-8 text-muted">GarageBook connects symptoms, shop visits, repairs, invoices, and warranties into a trusted vehicle history you can actually use.</p>
-          <div className="mt-9 flex flex-wrap gap-3">
-            <Link className="btn btn-primary btn-lg" href="/signup">Start your garage <ArrowRight size={17} /></Link>
-            <Link className="btn btn-secondary btn-lg" href="/dashboard">View sample dashboard</Link>
+
+      <section className="home-hero" aria-labelledby="home-title">
+        <div className="home-pitch">
+          <p className="home-kicker"><ShieldCheck size={15} /> Your car&apos;s complete story</p>
+          <h1 id="home-title">Every repair.<br />One clear record.</h1>
+          <p className="home-intro">Keep symptoms, shop visits, estimates, repairs, receipts, and warranties connected in one trustworthy vehicle history.</p>
+          <div className="home-actions">
+            <Link className="home-primary-action" href="/signup">Start your garage <ArrowRight size={18} /></Link>
+            <Link className="home-secondary-action" href="/dashboard">Explore the dashboard</Link>
           </div>
-          <div className="mt-10 flex flex-wrap gap-x-7 gap-y-3 text-sm text-muted">
-            {['Free to start','No credit card','Built for real ownership'].map((item) => <span className="flex items-center gap-2" key={item}><CheckCircle2 className="text-teal" size={16} />{item}</span>)}
-          </div>
+          <ul className="home-assurances" aria-label="GarageBook benefits">
+            <li><Check size={15} /> Free to start</li>
+            <li><Check size={15} /> Private by default</li>
+            <li><Check size={15} /> Built for real ownership</li>
+          </ul>
         </div>
-        <div className="relative rounded-[28px] border border-black/5 bg-[#202b2a] p-5 shadow-2xl shadow-teal/10 sm:p-7">
-          <div className="mb-8 flex items-center justify-between text-white"><div><p className="text-xs uppercase tracking-[.18em] text-white/55">In your garage</p><p className="mt-1 font-medium">2014 MINI Cooper S Paceman</p></div><span className="status status-good">Healthy</span></div>
-          <div className="rounded-2xl bg-[#eef2ed] p-6">
-            <div className="flex items-end justify-between"><div><p className="text-sm text-muted">Current mileage</p><p className="mt-1 text-3xl font-semibold tracking-tight">121,450 <span className="text-base font-normal text-muted">mi</span></p></div><div className="health-ring">86</div></div>
-            <div className="mt-8 grid gap-3 sm:grid-cols-2">
-              <div className="mini-card"><Wrench size={18} /><div><p className="text-xs text-muted">Latest repair</p><p className="text-sm font-medium">Oil-pan gasket</p></div></div>
-              <div className="mini-card"><FileText size={18} /><div><p className="text-xs text-muted">Records stored</p><p className="text-sm font-medium">12 documents</p></div></div>
+
+        <div className="home-record" aria-label="Example vehicle record">
+          <div className="home-record-heading">
+            <div>
+              <p>In your garage</p>
+              <h2>2014 MINI Cooper S Paceman</h2>
             </div>
+            <span><FileCheck2 size={13} /> Sample record</span>
           </div>
-          <p className="mt-5 text-center text-xs text-white/45">Symptom → Shop → Repair → Invoice → History</p>
+          <div className="home-mileage-panel">
+            <div>
+              <p>Current mileage</p>
+              <strong>121,450 <small>mi</small></strong>
+            </div>
+            <div className="home-health-score" aria-label="Vehicle history organized"><Check size={24} /></div>
+          </div>
+          <dl className="home-record-facts">
+            <div>
+              <dt><Wrench size={17} /> Latest repair</dt>
+              <dd>Oil-pan gasket replacement</dd>
+            </div>
+            <div>
+              <dt><FileText size={17} /> Evidence stored</dt>
+              <dd>12 documents</dd>
+            </div>
+          </dl>
+          <div className="home-journey">
+            <p>One connected repair journey</p>
+            <ol>
+              {journey.map(({ label, icon: Icon }, index) => (
+                <li key={label}>
+                  <span><Icon size={15} /></span>
+                  <small>{label}</small>
+                  {index < journey.length - 1 ? <i aria-hidden="true" /> : null}
+                </li>
+              ))}
+            </ol>
+          </div>
         </div>
+      </section>
+
+      <section className="home-proof" aria-label="What GarageBook keeps together">
+        <div>
+          <p>Not another maintenance list</p>
+          <h2>The context behind the work stays with the record.</h2>
+        </div>
+        <p>When a warning appears months later, you can see what you noticed, where you went, what was approved, what was repaired, and the documents that prove it.</p>
+        <Link href="/signup">Build your vehicle history <ArrowRight size={17} /></Link>
       </section>
     </main>
   );
