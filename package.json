@@ -7,8 +7,8 @@
   },
   "scripts": {
     "dev": "next dev",
-    "build": "next build",
-    "netlify:build": "node scripts/netlify-preflight.mjs && next build",
+    "build": "next build --webpack",
+    "netlify:build": "node scripts/netlify-preflight.mjs && next build --webpack",
     "netlify:check": "node --env-file=.env.local scripts/netlify-preflight.mjs --local",
     "start": "next start",
     "mobile": "npm --prefix apps/mobile run start",

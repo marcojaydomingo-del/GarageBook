@@ -13,6 +13,6 @@ describe("Netlify configuration",()=>{
   });
 
   it("runs the environment preflight before the build",()=>{
-    expect(packageJson.scripts?.["netlify:build"]).toBe("node scripts/netlify-preflight.mjs && next build");
+    expect(packageJson.scripts?.["netlify:build"]).toBe("node scripts/netlify-preflight.mjs && next build --webpack");
   });
 });
