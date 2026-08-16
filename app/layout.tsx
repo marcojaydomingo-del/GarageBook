@@ -9,7 +9,7 @@ export const metadata: Metadata = {
   metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL ?? "http://localhost:3000"),
   title: { default: "GarageBook — Your vehicle history, organized", template: "%s · GarageBook" },
   description: "Track maintenance, symptoms, repairs, documents, and shops in one clear vehicle history.",
-  icons: { icon: "/favicon.svg", shortcut: "/favicon.svg" },
+  icons: { icon: "/garagebook-favicon.svg", shortcut: "/garagebook-favicon.svg" },
   openGraph: { title: "GarageBook — Every repair. One clear record.", description: "Track your complete vehicle repair journey in one trusted history.", images: [{ url: "/og.png", width: 1200, height: 630 }] },
   twitter: { card: "summary_large_image", title: "GarageBook — Every repair. One clear record.", description: "Track your complete vehicle repair journey in one trusted history.", images: ["/og.png"] },
 };
