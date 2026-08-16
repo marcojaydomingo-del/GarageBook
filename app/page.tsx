@@ -5,7 +5,6 @@ import {
   FileCheck2,
   FileText,
   MapPin,
-  ShieldCheck,
   Stethoscope,
   Wrench,
 } from "lucide-react";
@@ -38,7 +37,6 @@ export default function Home() {
 
       <section className="home-hero" aria-labelledby="home-title">
         <div className="home-pitch">
-          <p className="home-kicker"><ShieldCheck size={15} /> Your car&apos;s complete story</p>
           <h1 id="home-title">Every repair.<br />One clear record.</h1>
           <p className="home-intro">Keep symptoms, shop visits, estimates, repairs, receipts, and warranties connected in one trustworthy vehicle history.</p>
           <div className="home-actions">
@@ -53,48 +51,51 @@ export default function Home() {
         </div>
 
         <div className="home-record" aria-label="Example vehicle record">
-          <div className="home-record-heading">
-            <div>
-              <p>In your garage</p>
-              <h2>2014 MINI Cooper S Paceman</h2>
+          <div className="home-record-photo" role="img" aria-label="Graphite MINI Cooper S Paceman parked inside an independent service garage">
+            <div className="home-record-heading">
+              <div>
+                <p>In your garage</p>
+                <h2>2014 MINI Cooper S Paceman</h2>
+              </div>
+              <span><FileCheck2 size={13} /> Sample record</span>
             </div>
-            <span><FileCheck2 size={13} /> Sample record</span>
           </div>
-          <div className="home-mileage-panel">
-            <div>
-              <p>Current mileage</p>
-              <strong>121,450 <small>mi</small></strong>
+          <div className="home-record-ledger">
+            <div className="home-mileage-panel">
+              <div>
+                <p>Current mileage</p>
+                <strong>121,450 <small>mi</small></strong>
+              </div>
+              <div className="home-health-score" aria-label="Vehicle history organized"><Check size={24} /></div>
             </div>
-            <div className="home-health-score" aria-label="Vehicle history organized"><Check size={24} /></div>
-          </div>
-          <dl className="home-record-facts">
-            <div>
-              <dt><Wrench size={17} /> Latest repair</dt>
-              <dd>Oil-pan gasket replacement</dd>
+            <dl className="home-record-facts">
+              <div>
+                <dt><Wrench size={17} /> Latest repair</dt>
+                <dd>Oil-pan gasket replacement</dd>
+              </div>
+              <div>
+                <dt><FileText size={17} /> Evidence stored</dt>
+                <dd>12 documents</dd>
+              </div>
+            </dl>
+            <div className="home-journey">
+              <p>One connected repair journey</p>
+              <ol>
+                {journey.map(({ label, icon: Icon }, index) => (
+                  <li key={label}>
+                    <span><Icon size={15} /></span>
+                    <small>{label}</small>
+                    {index < journey.length - 1 ? <i aria-hidden="true" /> : null}
+                  </li>
+                ))}
+              </ol>
             </div>
-            <div>
-              <dt><FileText size={17} /> Evidence stored</dt>
-              <dd>12 documents</dd>
-            </div>
-          </dl>
-          <div className="home-journey">
-            <p>One connected repair journey</p>
-            <ol>
-              {journey.map(({ label, icon: Icon }, index) => (
-                <li key={label}>
-                  <span><Icon size={15} /></span>
-                  <small>{label}</small>
-                  {index < journey.length - 1 ? <i aria-hidden="true" /> : null}
-                </li>
-              ))}
-            </ol>
           </div>
         </div>
       </section>
 
       <section className="home-proof" aria-label="What GarageBook keeps together">
         <div>
-          <p>Not another maintenance list</p>
           <h2>The context behind the work stays with the record.</h2>
         </div>
         <p>When a warning appears months later, you can see what you noticed, where you went, what was approved, what was repaired, and the documents that prove it.</p>
