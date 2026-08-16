@@ -1,10 +1,12 @@
 import Link from "next/link";
 import { ArrowRight, CheckCircle2, FileText, Wrench } from "lucide-react";
 import { Brand } from "@/components/brand";
+import { RecoveryRedirect } from "@/components/recovery-redirect";
 
 export default function Home() {
   return (
     <main className="min-h-screen bg-[#f6f6f2]">
+      <RecoveryRedirect />
       <header className="mx-auto flex max-w-7xl items-center justify-between px-5 py-6 lg:px-8">
         <Brand />
         <nav className="flex items-center gap-3" aria-label="Account">

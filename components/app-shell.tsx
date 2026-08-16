@@ -1,9 +1,12 @@
-import Link from "next/link";
-import { Bell, CarFront, LayoutDashboard, Menu, Plus, Store, UserCircle } from "lucide-react";
+import { LogOut } from "lucide-react";
 import { Brand } from "./brand";
+import { logout } from "@/app/auth/actions";
+import { DesktopNavigation, MobileNavigation } from "./app-navigation";
+import { ThemeToggle } from "./theme-toggle";
 
-export function AppShell({children}:Readonly<{children:React.ReactNode}>){
-  return <div className="min-h-screen bg-canvas"><header className="sticky top-0 z-20 border-b border-[#e3e6e2] bg-white/95 backdrop-blur"><div className="mx-auto flex h-16 max-w-7xl items-center justify-between px-4 lg:px-8"><Brand/><nav className="hidden items-center gap-1 md:flex" aria-label="Primary"><NavLink href="/dashboard"><LayoutDashboard size={16}/>Dashboard</NavLink><NavLink href="/vehicles/mini-paceman"><CarFront size={16}/>Vehicles</NavLink><NavLink href="/shops"><Store size={16}/>Shops</NavLink></nav><div className="flex items-center gap-1"><button className="btn btn-ghost !px-2" aria-label="Notifications"><Bell size={19}/></button><button className="btn btn-ghost !px-2 md:hidden" aria-label="Open menu"><Menu size={20}/></button><UserCircle className="ml-1 text-[#8a9491]" size={29}/></div></div></header><main className="mx-auto max-w-7xl px-4 py-7 lg:px-8 lg:py-9">{children}</main><nav className="fixed inset-x-0 bottom-0 z-30 grid grid-cols-4 border-t border-[#dde2df] bg-white px-2 py-2 md:hidden" aria-label="Mobile navigation"><MobileLink href="/dashboard"><LayoutDashboard size={19}/>Home</MobileLink><MobileLink href="/vehicles/mini-paceman"><CarFront size={19}/>Vehicle</MobileLink><MobileLink href="/vehicles/new"><Plus size={19}/>Add</MobileLink><MobileLink href="/shops"><Store size={19}/>Shops</MobileLink></nav></div>;
+export function AppShell({children,vehicleId}:Readonly<{children:React.ReactNode;vehicleId?:string}>){
+  const vehicleHref=vehicleId?`/vehicles/${vehicleId}`:"/dashboard";
+  const addHref=vehicleId?`/vehicles/${vehicleId}/maintenance/new`:"/vehicles/new";
+  const addLabel=vehicleId?"Add record":"Add vehicle";
+  return <div className="app-frame min-h-screen"><header className="app-header"><div className="mx-auto flex h-16 max-w-[1480px] items-center justify-between px-4 lg:px-7"><Brand/><DesktopNavigation vehicleHref={vehicleHref}/><div className="flex items-center gap-2"><ThemeToggle/><form action={logout}><button className="icon-button" aria-label="Log out" title="Log out" type="submit"><LogOut size={17}/></button></form></div></div></header><main className="app-content mx-auto max-w-[1480px] px-4 py-6 pb-28 md:pb-9 lg:px-7 lg:py-7">{children}</main><MobileNavigation vehicleHref={vehicleHref} addHref={addHref} addLabel={addLabel}/></div>;
 }
-function NavLink({href,children}:{href:string;children:React.ReactNode}){ return <Link className="flex items-center gap-2 rounded-lg px-3 py-2 text-sm font-medium text-[#5b6663] hover:bg-[#f0f2ef] hover:text-charcoal" href={href}>{children}</Link>; }
-function MobileLink({href,children}:{href:string;children:React.ReactNode}){ return <Link className="flex flex-col items-center gap-1 text-[11px] font-medium text-muted" href={href}>{children}</Link>; }

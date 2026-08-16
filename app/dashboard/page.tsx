@@ -1,10 +1,101 @@
 import Link from "next/link";
-import { AlertTriangle, CalendarClock, Camera, CircleDollarSign, Gauge, MapPin, Plus, Wrench } from "lucide-react";
+import {
+  AlertTriangle,ArrowRight,CalendarClock,Camera,Check,ChevronDown,
+  CircleDollarSign,FileText,Gauge,MapPin,Plus,Receipt,Store,Wrench,
+} from "lucide-react";
 import { AppShell } from "@/components/app-shell";
-import { PageHeader } from "@/components/page-header";
+import { EmptyState } from "@/components/states";
 import { VehicleTimeline } from "@/components/timeline";
-import { formatCurrency, formatMileage, recentEvents, sampleVehicle } from "@/lib/sample-data";
+import { ReminderList } from "@/components/reminder-list";
+import { DashboardTour,DashboardTourReplay } from "@/components/dashboard-tour";
+import {
+  getVehiclePhotos,getVehicleReminders,getVehicleSummary,getVehicleTimeline,getVehicles,
+  requireUser,type VehicleRecord,
+} from "@/lib/data/garage";
+import { formatCurrency,formatDate,formatMileage } from "@/lib/format";
+import { getRepairJourneyStep,repairCaseLabels,repairJourneySteps,type RepairCaseStatus } from "@/lib/domain/repair-case";
 
-const actions=[{label:"Add maintenance",href:`/vehicles/${sampleVehicle.id}/maintenance/new`,icon:Wrench},{label:"Log a problem",href:`/vehicles/${sampleVehicle.id}/symptoms/new`,icon:AlertTriangle},{label:"Upload receipt",href:`/vehicles/${sampleVehicle.id}`,icon:Camera},{label:"Find a shop",href:"/shops",icon:MapPin}];
-export default function Dashboard(){return <AppShell><PageHeader eyebrow="Saturday, August 8" title="Good morning, Jamie" description="Your MINI is in good shape. Here’s what needs your attention." actions={<Link className="btn btn-primary" href="/vehicles/new"><Plus size={16}/>Add vehicle</Link>}/><section className="card overflow-hidden"><div className="grid lg:grid-cols-[1.2fr_.8fr]"><div className="bg-[#24312f] p-6 text-white sm:p-8"><div className="flex items-start justify-between gap-4"><div><p className="text-xs font-semibold uppercase tracking-[.15em] text-white/50">Primary vehicle</p><h2 className="mt-2 text-2xl font-semibold tracking-tight">{sampleVehicle.year} {sampleVehicle.make}</h2><p className="text-white/65">{sampleVehicle.model} · {sampleVehicle.trim}</p></div><span className="status status-good">● {sampleVehicle.healthLabel}</span></div><div className="mt-10 flex items-end justify-between"><div><p className="text-sm text-white/50">Current mileage</p><p className="mt-1 text-3xl font-semibold">{formatMileage(sampleVehicle.mileage)} <span className="text-base font-normal text-white/50">mi</span></p></div><Link className="text-sm font-semibold text-[#77d9ce] hover:text-white" href={`/vehicles/${sampleVehicle.id}`}>View history →</Link></div></div><div className="grid grid-cols-2 gap-px bg-[#e3e7e3]"><Metric icon={CalendarClock} label="Next service" value="In 2,550 mi"/><Metric icon={AlertTriangle} label="Open symptoms" value="1 monitoring"/><Metric icon={CircleDollarSign} label="Total spend" value={formatCurrency(sampleVehicle.totalSpend)}/><Metric icon={Gauge} label="Health score" value={`${sampleVehicle.healthScore} / 100`}/></div></div></section><section className="mt-7"><h2 className="mb-3 text-sm font-semibold">Quick actions</h2><div className="grid grid-cols-2 gap-3 lg:grid-cols-4">{actions.map(({label,href,icon:Icon})=><Link className="card group flex items-center gap-3 p-4 transition hover:-translate-y-0.5 hover:border-[#b9d7d1] hover:shadow-md" href={href} key={label}><span className="grid h-10 w-10 place-items-center rounded-xl bg-[#e7f3f0] text-teal"><Icon size={18}/></span><span className="text-sm font-semibold">{label}</span></Link>)}</div></section><section className="mt-8 grid gap-6 lg:grid-cols-[1.3fr_.7fr]"><div className="card p-5 sm:p-6"><div className="mb-6 flex items-center justify-between"><div><h2 className="text-lg font-semibold">Recent activity</h2><p className="mt-1 text-sm text-muted">Your MINI’s latest records</p></div><Link className="text-sm font-semibold text-teal" href={`/vehicles/${sampleVehicle.id}`}>View all</Link></div><VehicleTimeline compact events={recentEvents}/></div><aside className="space-y-4"><div className="card p-5"><p className="text-sm font-semibold">Next scheduled service</p><p className="mt-4 text-2xl font-semibold tracking-tight">124,000 miles</p><p className="mt-1 text-sm text-muted">Oil service & inspection</p><div className="mt-5 h-2 overflow-hidden rounded-full bg-[#e5eae6]"><div className="h-full w-[72%] rounded-full bg-teal"/></div><p className="mt-2 text-xs text-muted">2,550 miles remaining</p></div><div className="card border-[#eddcb7] bg-[#fffbf1] p-5"><span className="status status-watch">Needs attention</span><h3 className="mt-3 font-semibold">Oil-pressure warning</h3><p className="mt-1 text-sm leading-6 text-muted">Intermittent at warm idle. Currently monitoring.</p><Link className="mt-4 inline-flex text-sm font-semibold text-teal" href={`/vehicles/${sampleVehicle.id}`}>Review symptom →</Link></div></aside></section></AppShell>}
-function Metric({icon:Icon,label,value}:{icon:React.ComponentType<{size?:number}>;label:string;value:string}){return <div className="bg-white p-5 sm:p-6"><Icon className="text-teal" size={18}/><p className="mt-5 text-xs text-muted">{label}</p><p className="mt-1 text-sm font-semibold sm:text-base">{value}</p></div>}
+interface DashboardProps{searchParams:Promise<{vehicle?:string}>}
+
+export default async function Dashboard({searchParams}:DashboardProps){
+  const [{vehicle:requestedVehicleId},vehicles,auth]=await Promise.all([searchParams,getVehicles(),requireUser()]);
+  const fullName=auth.user.user_metadata.full_name;
+  const name=typeof fullName==="string"&&fullName.trim()?fullName.trim().split(/\s+/)[0]:"there";
+  const vehicle=vehicles.find(({id})=>id===requestedVehicleId)??vehicles[0];
+
+  if(!vehicle)return <AppShell><div className="dashboard-heading"><div><h1>Welcome, {name}</h1><p>Add your first vehicle to begin a trustworthy maintenance history.</p></div></div><EmptyState title="Your garage is ready for its first vehicle" description="Start with the vehicle and current mileage. You can add maintenance, symptoms, receipts, and shop visits afterward." action={<Link className="btn btn-primary" href="/vehicles/new"><Plus size={16}/>Add your first vehicle</Link>}/></AppShell>;
+
+  const [summary,timeline,reminders,photos]=await Promise.all([
+    getVehicleSummary(vehicle.id),getVehicleTimeline(vehicle.id),getVehicleReminders(vehicle.id,vehicle.current_mileage),getVehiclePhotos(vehicle.id,1),
+  ]);
+  if(!summary)throw new Error("Unable to load vehicle summary");
+  const lastMileageDate=timeline.find(({type})=>type==="mileage_update")?.date;
+  const openSymptom=timeline.find(({type,status})=>type==="symptom"&&status!=="completed");
+  const statusClass=summary.status.label==="Up to date"?"status-good":summary.status.label==="Attention soon"?"status-watch":"status-action";
+  const activeCase=summary.activeRepairCase;
+  const {data:tourProfile}=await auth.supabase.from("profiles").select("dashboard_tour_version").eq("id",auth.user.id).maybeSingle();
+  const completedTourVersion=typeof tourProfile?.dashboard_tour_version==="number"?tourProfile.dashboard_tour_version:0;
+
+  return <AppShell vehicleId={vehicle.id}>
+    <DashboardTour initialOpen={completedTourVersion<1}/>
+    <div className="dashboard-heading">
+      <div><h1>Your MINI, one clear record.</h1><p>Welcome back, {name}. Here’s what needs attention and what is already documented.</p></div>
+      <div className="dashboard-heading-actions"><DashboardTourReplay/><Link className="btn btn-secondary" href="/vehicles/new"><Plus size={16}/>Add vehicle</Link></div>
+    </div>
+
+    <section className="cockpit" aria-labelledby="selected-vehicle" data-tour="vehicle">
+      <div className="vehicle-command" style={photos[0]?{"--vehicle-photo":`url(${photos[0].url})`} as React.CSSProperties:undefined}>
+        <div className="vehicle-command-shade"/>
+        <div className="vehicle-command-content">
+          <div className="flex flex-wrap items-start justify-between gap-4">
+            <div><p className="vehicle-year">{vehicle.year}</p><h2 id="selected-vehicle">{vehicle.make} {vehicle.model}</h2><p>{vehicle.trim??"Vehicle record"}</p></div>
+            <span className={`status ${statusClass}`}>{summary.status.label}</span>
+          </div>
+          {vehicles.length>1&&<VehicleSwitcher vehicles={vehicles} selected={vehicle}/>}
+          <div className="vehicle-mileage"><span>Current mileage</span><strong>{formatMileage(vehicle.current_mileage)} <small>mi</small></strong><p>{lastMileageDate?`Recorded ${formatDate(lastMileageDate)}`:"Recorded when this vehicle was added"}</p></div>
+          <div className="vehicle-command-actions" data-tour="actions">
+            <Link className="dashboard-primary-action" href={`/vehicles/${vehicle.id}/maintenance/new`}><Wrench size={17}/>Add service or repair<ArrowRight size={16}/></Link>
+            <Link href={`/vehicles/${vehicle.id}/symptoms/new`}><AlertTriangle size={16}/>Log a problem</Link>
+            <Link href={photos.length?`/vehicles/${vehicle.id}/photos`:`/vehicles/${vehicle.id}#ride-photos`}><Camera size={16}/>{photos.length?"Open photo gallery":"Add vehicle photo"}</Link>
+          </div>
+        </div>
+      </div>
+
+      <div className="service-planner">
+        <PlannerRow icon={CalendarClock} tone="amber" label="Next scheduled service" value={reminders[0]?.title??"No service scheduled"} href={`/vehicles/${vehicle.id}/reminders/new`} action={reminders[0]?"Review plan":"Schedule service"}/>
+        <PlannerRow icon={AlertTriangle} tone="orange" label="Open symptoms" value={openSymptom?.title??"No symptoms awaiting follow-up"} href={`/vehicles/${vehicle.id}/symptoms/new`} action={summary.openSymptoms?"Review problem":"Log a problem"}/>
+      </div>
+    </section>
+
+    <RepairRibbon status={activeCase?.status??null} title={activeCase?.title??openSymptom?.title} vehicleId={vehicle.id} caseId={activeCase?.id}/>
+
+    <section className="dashboard-workspace">
+      <div className="history-panel" data-tour="history">
+        <div className="panel-heading"><div><h2>Recent vehicle history</h2><p>The latest evidence across maintenance, repairs, symptoms, mileage, and documents.</p></div><Link href={`/vehicles/${vehicle.id}`}>View full history <ArrowRight size={15}/></Link></div>
+        {timeline.length?<VehicleTimeline compact events={timeline.slice(0,5)}/>:<EmptyState title="No vehicle activity yet" description="Add maintenance or log a problem to begin this vehicle’s history."/>}
+      </div>
+
+      <aside className="service-sidecar">
+        <section data-tour="reminders"><div className="sidecar-heading"><h2>Service reminders</h2><Link href={`/vehicles/${vehicle.id}/reminders/new`} aria-label="Add reminder"><Plus size={16}/></Link></div><ReminderList limit={2} reminders={reminders} vehicleId={vehicle.id}/></section>
+        <section className="record-overview"><h2>Record overview</h2><dl><OverviewRow icon={CircleDollarSign} label="Recorded spend" value={formatCurrency(summary.totalSpend)}/><OverviewRow icon={FileText} label="Documents" value={String(summary.documentCount)}/><OverviewRow icon={Wrench} label="Active cases" value={String(summary.unresolvedRepairCases)}/><OverviewRow icon={AlertTriangle} label="Open symptoms" value={String(summary.openSymptoms)}/></dl></section>
+        <section className="quick-links"><h2>More actions</h2><Link href={`/vehicles/${vehicle.id}#documents`}><FileText size={16}/>Upload receipt<ArrowRight size={15}/></Link><Link href="/shops"><MapPin size={16}/>Repair shops<ArrowRight size={15}/></Link><Link href={`/vehicles/${vehicle.id}`}><ArrowRight size={16}/>Vehicle details<ArrowRight size={15}/></Link></section>
+      </aside>
+    </section>
+  </AppShell>;
+}
+
+function PlannerRow({icon:Icon,tone,label,value,href,action}:{icon:React.ComponentType<{size?:number}>;tone:"amber"|"orange";label:string;value:string;href:string;action:string}){return <article className={`planner-row planner-${tone}`}><span className="planner-icon"><Icon size={21}/></span><div><p>{label}</p><h3>{value}</h3></div><Link href={href}>{action}<ArrowRight size={16}/></Link></article>}
+
+function RepairRibbon({status,title,vehicleId,caseId}:{status:RepairCaseStatus|null;title?:string;vehicleId:string;caseId?:string}){
+  const current=status?getRepairJourneyStep(status):-1;
+  const stepIcons=[AlertTriangle,Store,FileText,Wrench,Receipt];
+  return <section className="repair-ribbon" aria-label="Connected repair journey" data-tour="journey">
+    <div className="repair-ribbon-title"><span>{status?repairCaseLabels[status]:"Repair journey"}</span><strong>{title??"No active repair journey"}</strong></div>
+    <ol>{repairJourneySteps.map((step,index)=>{const StepIcon=stepIcons[index]??Gauge;const complete=status==="completed"||index<current;const active=index===current&&status!=="completed";return <li className={complete?"complete":active?"active":""} key={step}><span>{complete?<Check size={14}/>:<StepIcon size={14}/>}</span><small>{step}</small></li>})}</ol>
+    <Link href={caseId?`/vehicles/${vehicleId}/repairs/${caseId}`:`/vehicles/${vehicleId}/symptoms/new`}>{caseId?"Open journey":"Start with a symptom"}<ArrowRight size={15}/></Link>
+  </section>;
+}
+
+function VehicleSwitcher({vehicles,selected}:{vehicles:VehicleRecord[];selected:VehicleRecord}){return <details className="vehicle-switcher relative mt-5 w-fit"><summary className="flex min-h-11 cursor-pointer items-center gap-2 rounded-lg px-3 text-sm font-semibold">Switch vehicle <ChevronDown size={16}/></summary><div className="vehicle-switcher-menu">{vehicles.map(vehicle=>{const active=vehicle.id===selected.id;return <Link className={active?"active":""} href={`/dashboard?vehicle=${vehicle.id}`} aria-current={active?"true":undefined} key={vehicle.id}><span>{vehicle.year} {vehicle.make} {vehicle.model}</span>{active&&<Check size={16}/>}</Link>})}</div></details>}
+
+function OverviewRow({icon:Icon,label,value}:{icon:React.ComponentType<{size?:number}>;label:string;value:string}){return <div><Icon size={17}/><dt>{label}</dt><dd>{value}</dd></div>}

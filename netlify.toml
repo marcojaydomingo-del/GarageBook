@@ -1,0 +1,9 @@
+[build]
+  command = "npm run netlify:build"
+  publish = ".next"
+
+[build.environment]
+  NODE_VERSION = "22"
+
+# Netlify's maintained OpenNext adapter is detected automatically.
+# Do not pin a legacy Next.js runtime plugin here.

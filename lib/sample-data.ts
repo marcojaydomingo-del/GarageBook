@@ -1,3 +1,4 @@
+// Development/demo utility only. Authenticated application pages do not import this module.
 import type { Shop, TimelineEvent, Vehicle } from "./types";
 
 export const sampleVehicle: Vehicle = { id:"mini-paceman",year:2014,make:"MINI",model:"Cooper S Paceman",trim:"ALL4",mileage:121450,vin:"WMWSS7C58EWN•••••",color:"Oxford Green",healthScore:86,healthLabel:"Good",nextService:"Oil service in 2,550 mi",totalSpend:4387.64 };

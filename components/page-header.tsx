@@ -1,1 +1,10 @@
-export function PageHeader({eyebrow,title,description,actions}:{eyebrow?:string;title:string;description?:string;actions?:React.ReactNode}){ return <div className="mb-7 flex flex-col justify-between gap-4 sm:flex-row sm:items-end"><div>{eyebrow&&<p className="mb-2 text-xs font-bold uppercase tracking-[.14em] text-teal">{eyebrow}</p>}<h1 className="text-3xl font-semibold tracking-[-.035em] sm:text-4xl">{title}</h1>{description&&<p className="mt-2 max-w-2xl text-sm leading-6 text-muted">{description}</p>}</div>{actions&&<div className="flex flex-wrap gap-2">{actions}</div>}</div>; }
+export function PageHeader({eyebrow,title,description,actions}:{eyebrow?:string;title:string;description?:string;actions?:React.ReactNode}){
+  return <header className="page-header">
+    <div className="page-header-copy">
+      {eyebrow&&<p className="page-eyebrow">{eyebrow}</p>}
+      <h1>{title}</h1>
+      {description&&<p>{description}</p>}
+    </div>
+    {actions&&<div className="page-header-actions">{actions}</div>}
+  </header>;
+}

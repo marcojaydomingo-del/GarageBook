@@ -1,4 +1,4 @@
 import Link from "next/link";
 import { CarFront } from "lucide-react";
 
-export function Brand() { return <Link className="flex items-center gap-2.5 font-semibold tracking-[-.02em]" href="/"><span className="grid h-9 w-9 place-items-center rounded-xl bg-teal text-white"><CarFront size={19}/></span><span className="text-lg">GarageBook</span></Link>; }
+export function Brand() { return <Link className="brand" href="/"><span className="brand-mark"><CarFront size={18}/></span><span>Garage<span className="brand-accent">Book</span></span></Link>; }
