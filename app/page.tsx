@@ -57,19 +57,15 @@ export default function Home() {
       <section className="landing-hero" aria-labelledby="landing-title">
         <div className="landing-hero-inner">
           <div className="landing-hero-card">
-            <h1 id="landing-title">Everything about your car. One garage.</h1>
-            <p>Maintenance, repairs, symptoms, receipts, reminders, and vehicle history—kept together from the first warning to the final invoice.</p>
+            <span className="landing-hero-wordmark">GarageBook</span>
+            <h1 id="landing-title">Everything about <span>your car.<br />One garage.</span></h1>
+            <p>Maintenance, repairs, symptoms, receipts, and history—together.</p>
             <div className="landing-hero-actions">
               <Link className="landing-button landing-button-dark" href="/signup">Get GarageBook free <ArrowRight size={17} /></Link>
               <a className="landing-button landing-button-ghost" href="#how-it-works">See how it works <ArrowRight size={17} /></a>
             </div>
-            <ul className="landing-hero-assurances">
-              <li><Check size={14} /> Your data, always yours</li>
-              <li><Check size={14} /> Works on all your devices</li>
-              <li><Check size={14} /> Free to start</li>
-            </ul>
+            <div className="landing-device-stage"><LandingDashboardPreview /></div>
           </div>
-          <div className="landing-device-stage"><LandingDashboardPreview /></div>
         </div>
       </section>
 

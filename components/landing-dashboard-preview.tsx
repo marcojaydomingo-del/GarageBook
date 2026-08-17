@@ -13,9 +13,24 @@ import {
 
 export function LandingDashboardPreview() {
   return (
-    <div className="landing-phone" aria-label="GarageBook mobile dashboard preview">
-      <div className="landing-phone-speaker" aria-hidden="true" />
-      <div className="landing-phone-screen">
+    <div className="landing-device-pair" aria-label="GarageBook web and mobile dashboard previews">
+      <div className="landing-laptop" aria-label="GarageBook web dashboard preview">
+        <div className="landing-laptop-frame"><DashboardScreen /></div>
+        <div className="landing-laptop-base" aria-hidden="true" />
+      </div>
+      <div className="landing-phone-wrap">
+        <div className="landing-phone" aria-label="GarageBook mobile dashboard preview">
+          <div className="landing-phone-speaker" aria-hidden="true" />
+          <DashboardScreen />
+        </div>
+      </div>
+    </div>
+  );
+}
+
+function DashboardScreen() {
+  return (
+    <div className="landing-phone-screen">
         <div className="landing-phone-bar">
           <span className="landing-phone-brand">GarageBook</span>
           <span className="landing-phone-avatar">JD</span>
@@ -49,7 +64,6 @@ export function LandingDashboardPreview() {
           <span><Store size={13} />Shops</span>
         </nav>
       </div>
-    </div>
   );
 }
 
