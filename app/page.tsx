@@ -57,7 +57,9 @@ export default function Home() {
       <section className="landing-hero" aria-labelledby="landing-title">
         <div className="landing-hero-inner">
           <div className="landing-hero-card">
-            <span className="landing-hero-wordmark">GarageBook</span>
+            <span className="landing-hero-flag" aria-label="GarageBook">
+              <span><b>Garage</b></span><span><b>Book</b></span>
+            </span>
             <h1 id="landing-title">Everything about <span>your car.<br />One garage.</span></h1>
             <p>Maintenance, repairs, symptoms, receipts, and history—together.</p>
             <div className="landing-hero-actions">
