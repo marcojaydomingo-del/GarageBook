@@ -5,8 +5,10 @@ import {
   CarFront,
   Check,
   FileText,
+  History,
   LayoutDashboard,
   Plus,
+  ReceiptText,
   Store,
   Wrench,
 } from "lucide-react";
@@ -15,7 +17,7 @@ export function LandingDashboardPreview() {
   return (
     <div className="landing-device-pair" aria-label="GarageBook web and mobile dashboard previews">
       <div className="landing-laptop" aria-label="GarageBook web dashboard preview">
-        <div className="landing-laptop-frame"><DashboardScreen /></div>
+        <div className="landing-laptop-frame"><DesktopDashboardScreen /></div>
         <div className="landing-laptop-base" aria-hidden="true" />
       </div>
       <div className="landing-phone-wrap">
@@ -25,6 +27,51 @@ export function LandingDashboardPreview() {
         </div>
       </div>
     </div>
+  );
+}
+
+function DesktopDashboardScreen() {
+  return (
+    <div className="landing-desktop-screen">
+      <aside className="landing-desktop-sidebar">
+        <strong>GarageBook</strong>
+        <nav aria-label="Desktop dashboard preview navigation">
+          <span className="active"><LayoutDashboard size={11} />Overview</span>
+          <span><History size={11} />Timeline</span>
+          <span><Wrench size={11} />Maintenance</span>
+          <span><AlertTriangle size={11} />Symptoms</span>
+          <span><ReceiptText size={11} />Documents</span>
+          <span><Store size={11} />Shops</span>
+        </nav>
+        <small><Check size={9} /> Records up to date</small>
+      </aside>
+      <div className="landing-desktop-main">
+        <header>
+          <div><small>2014</small><h3>MINI Cooper S Paceman</h3></div>
+          <span><Check size={9} /> Healthy</span>
+        </header>
+        <div className="landing-desktop-summary">
+          <div><small>Current mileage</small><strong>121,450 <em>mi</em></strong></div>
+          <div><small>Total spent</small><strong>$8,750</strong></div>
+          <div><small>Records</small><strong>23</strong></div>
+          <div><small>Open symptoms</small><strong>1</strong></div>
+        </div>
+        <div className="landing-desktop-columns">
+          <DesktopPanel title="Recent activity" rows={["Oil-pan gasket replacement", "Invoice uploaded", "Mileage updated"]} />
+          <DesktopPanel title="Upcoming reminders" rows={["Engine air filter", "Brake fluid flush", "Oil change"]} />
+          <DesktopPanel title="Recent documents" rows={["Repair invoice", "Inspection photo", "Service receipt"]} />
+        </div>
+      </div>
+    </div>
+  );
+}
+
+function DesktopPanel({ title, rows }: { title: string; rows: string[] }) {
+  return (
+    <section className="landing-desktop-panel">
+      <strong>{title}</strong>
+      {rows.map((row) => <div key={row}><span /><small>{row}</small></div>)}
+    </section>
   );
 }
 

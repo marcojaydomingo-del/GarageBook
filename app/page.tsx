@@ -64,7 +64,6 @@ export default function Home() {
               <Link className="landing-button landing-button-dark" href="/signup">Get GarageBook free <ArrowRight size={17} /></Link>
               <a className="landing-button landing-button-ghost" href="#how-it-works">See how it works <ArrowRight size={17} /></a>
             </div>
-            <div className="landing-device-stage"><LandingDashboardPreview /></div>
           </div>
         </div>
       </section>
@@ -117,6 +116,17 @@ export default function Home() {
             <HistoryLine tone="receipt" title="Front brake pads" source="Receipt documented" date="Nov 28, 2025" mileage="115,200 mi" />
             <HistoryLine tone="amended" title="Air filter replacement" source="Amended" date="Aug 15, 2024" mileage="102,450 mi" />
             <HistoryLine tone="void" title="Coolant flush" source="Voided" date="Jun 02, 2024" mileage="98,120 mi" />
+          </div>
+        </section>
+
+        <section className="landing-everywhere-band" aria-labelledby="landing-everywhere-title">
+          <div className="landing-everywhere-inner">
+            <div className="landing-everywhere-copy">
+              <h2 id="landing-everywhere-title"><span>6.</span> Your garage,<br />on every screen.</h2>
+              <p>Review the complete vehicle story on desktop. Capture mileage, symptoms, photos, and receipts when you’re with the car.</p>
+              <small>Web available · Native iOS and Android in development</small>
+            </div>
+            <div className="landing-everywhere-devices"><LandingDashboardPreview /></div>
           </div>
         </section>
 
