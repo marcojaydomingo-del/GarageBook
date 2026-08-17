@@ -10,8 +10,8 @@ export const metadata: Metadata = {
   title: { default: "GarageBook — Your vehicle history, organized", template: "%s · GarageBook" },
   description: "Track maintenance, symptoms, repairs, documents, and shops in one clear vehicle history.",
   icons: { icon: "/garagebook-favicon.svg", shortcut: "/garagebook-favicon.svg" },
-  openGraph: { title: "GarageBook — Every repair. One clear record.", description: "Track your complete vehicle repair journey in one trusted history.", images: [{ url: "/og.png", width: 1200, height: 630 }] },
-  twitter: { card: "summary_large_image", title: "GarageBook — Every repair. One clear record.", description: "Track your complete vehicle repair journey in one trusted history.", images: ["/og.png"] },
+  openGraph: { type:"website",siteName:"GarageBook",url:"/",title:"Everything about your car. One garage.",description:"Maintenance, repairs, symptoms, receipts, and vehicle history—together." },
+  twitter: { card: "summary_large_image",title:"Everything about your car. One garage.",description:"Maintenance, repairs, symptoms, receipts, and vehicle history—together." },
 };
 
 export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
