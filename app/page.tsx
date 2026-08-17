@@ -1,13 +1,15 @@
 import Link from "next/link";
 import {
   ArrowRight,
-  BellRing,
+  Bot,
   Check,
+  CirclePlus,
   FileCheck2,
   FileText,
   FolderLock,
-  Gauge,
   History,
+  ImageIcon,
+  LockKeyhole,
   MapPin,
   ReceiptText,
   ScanLine,
@@ -21,17 +23,14 @@ import { RecoveryRedirect } from "@/components/recovery-redirect";
 import { ThemeToggle } from "@/components/theme-toggle";
 import { pricing } from "@/lib/pricing";
 
-const garageFeatures = [
-  "Vehicle profile and photo gallery",
-  "Mileage and maintenance status",
-  "Reminders, costs, and documents",
-];
-
-const currentFeatures = [
-  "Vehicle profiles and photo galleries",
-  "Maintenance, repair, and symptom records",
-  "Reminders, documents, estimates, and shops",
-  "One chronological vehicle history",
+const comparisonFeatures = [
+  "Vehicle profiles",
+  "Maintenance & repair history",
+  "Reminders & notifications",
+  "Document storage",
+  "Shops & contacts",
+  "Mobile & desktop access",
+  "Export your data",
 ];
 
 export default function Home() {
@@ -44,6 +43,7 @@ export default function Home() {
           <nav className="landing-links" aria-label="Main navigation">
             <a href="#features">Features</a>
             <a href="#how-it-works">How it works</a>
+            <a href="#compare">Compare</a>
             <a href="#pricing">Pricing</a>
           </nav>
           <nav className="landing-account" aria-label="Account navigation">
@@ -73,125 +73,112 @@ export default function Home() {
         </div>
       </section>
 
-      <section className="landing-ledger" id="features">
-        <div className="landing-section-copy">
-          <h2>Your entire garage, organized.</h2>
-          <p>Every vehicle gets a durable digital home—complete with its photos, current mileage, upcoming service, costs, records, and documents.</p>
-          <ul>{garageFeatures.map((feature) => <li key={feature}><Check size={16} />{feature}</li>)}</ul>
-          <Link href="/signup">Add your first vehicle <ArrowRight size={16} /></Link>
-        </div>
-        <div className="landing-garage-board" aria-label="Example GarageBook vehicle record">
-          <div className="landing-garage-photo"><span>2014</span><strong>MINI Cooper S Paceman</strong><small>121,450 miles</small></div>
-          <div className="landing-garage-stats">
-            <div><Check size={16} /><span>Maintenance status</span><strong>Up to date</strong></div>
-            <div><BellRing size={16} /><span>Next service</span><strong>Oil change</strong></div>
-            <div><FileText size={16} /><span>Documents</span><strong>12 stored</strong></div>
+      <div className="landing-editorial" id="features">
+        <section className="landing-white-section landing-garage-section">
+          <SectionIntro number="1" title="Your entire garage, organized." description="Add every vehicle you own. Switch between profiles to see everything in one place." />
+          <div className="landing-vehicle-comparison">
+            <VehicleCard className="landing-vehicle-paceman" year="2014" name="MINI Cooper S Paceman" mileage="121,450 mi" />
+            <VehicleCard className="landing-vehicle-gt3" year="2023" name="Porsche 911 GT3 RS" mileage="8,420 mi" />
+            <Link className="landing-add-vehicle" href="/vehicles/new"><CirclePlus size={26} /><span>Add vehicle</span></Link>
           </div>
-        </div>
-      </section>
+        </section>
 
-      <section className="landing-journey-section" id="how-it-works">
-        <div className="landing-journey-heading">
-          <h2>The whole repair journey stays connected.</h2>
-          <p>GarageBook preserves what happened before, during, and after a repair—so the context never disappears into a folder of receipts.</p>
-        </div>
-        <ol className="landing-journey-flow">
-          <JourneyStep icon={Gauge} label="Symptom" detail="Record what you notice" />
-          <JourneyStep icon={MapPin} label="Shop" detail="Keep the visit attached" />
-          <JourneyStep icon={FileCheck2} label="Estimate" detail="Approve a clear scope" />
-          <JourneyStep icon={Wrench} label="Repair" detail="Document completed work" />
-          <JourneyStep icon={ReceiptText} label="Invoice" detail="Store proof and warranty" />
-          <JourneyStep icon={History} label="History" detail="Build the lasting record" />
-        </ol>
-      </section>
-
-      <section className="landing-feature-split">
-        <div className="landing-feature-dark">
-          <div className="landing-feature-icon"><BellRing size={24} /></div>
-          <h2>Never forget another service.</h2>
-          <p>Create time- or mileage-based reminders for maintenance, registration, insurance, inspections, and anything else your vehicle needs.</p>
-          <div className="landing-reminder-list">
-            <div><span>Oil change</span><strong>Due in 1,550 mi</strong></div>
-            <div><span>Registration renewal</span><strong>Sep 18, 2026</strong></div>
-            <div><span>Tire rotation</span><strong>Scheduled</strong></div>
+        <section className="landing-white-section landing-service-section" id="how-it-works">
+          <SectionIntro number="2" title="Never forget another service." description="Keep up with maintenance and upcoming tasks so your car stays in top shape." />
+          <div className="landing-service-list">
+            <ServiceLine tone="complete" title="Oil change" detail="118,650 mi · Feb 10, 2026" status="Completed" />
+            <ServiceLine tone="due" title="Brake fluid flush" detail="Recommended every 2 years" status="Due in 30 days" />
+            <ServiceLine tone="future" title="Spark plugs" detail="Recommended every 40,000 mi" status="Due in 8,550 mi" />
           </div>
-        </div>
-        <div className="landing-feature-paper">
-          <div className="landing-feature-icon"><FolderLock size={24} /></div>
-          <h2>Your digital glovebox.</h2>
-          <p>Keep private receipts, invoices, warranties, and photos with the vehicle they belong to. Your records remain private by default.</p>
-          <ul className="landing-file-list">
-            <li><FileText size={17} /><span>Oil-pan repair invoice.pdf</span><small>Invoice</small></li>
-            <li><ShieldCheck size={17} /><span>Parts warranty.pdf</span><small>Warranty</small></li>
-            <li><ReceiptText size={17} /><span>Coolant diagnosis.pdf</span><small>Receipt</small></li>
-          </ul>
-        </div>
-      </section>
+        </section>
 
-      <section className="landing-future">
-        <div>
-          <span className="landing-planned"><Sparkles size={14} /> Planned</span>
-          <h2>Less typing. More useful context.</h2>
-          <p>GarageBook is preparing receipt extraction, maintenance forecasting, and contextual vehicle assistance. These tools will organize evidence and suggest next steps—not replace a professional mechanic.</p>
-        </div>
-        <div className="landing-future-flow">
-          <div><ScanLine size={24} /><strong>Snap a receipt</strong><span>Upload the shop document</span></div>
-          <ArrowRight size={20} />
-          <div><Sparkles size={24} /><strong>Review extracted details</strong><span>Confirm before saving</span></div>
-          <ArrowRight size={20} />
-          <div><FileCheck2 size={24} /><strong>Add to vehicle</strong><span>Preserve it in history</span></div>
-        </div>
-      </section>
+        <section className="landing-smart-band">
+          <h2><span>3.</span> Smarter tools for every car owner.</h2>
+          <div className="landing-smart-grid">
+            <PlannedTool icon={Bot} title="GarageBook AI" description="Ask questions and understand your car’s recorded history like never before." />
+            <PlannedTool icon={ScanLine} title="Snap a receipt" description="Upload a photo, review extracted details, and file it to your vehicle." />
+            <PlannedTool icon={Sparkles} title="Know what’s coming" description="Forecast maintenance and costs so you can plan ahead with confidence." />
+          </div>
+        </section>
 
-      <section className="landing-trust">
-        <div className="landing-trust-copy">
-          <h2>A history you can actually trust.</h2>
-          <p>GarageBook is being designed to preserve finalized records, corrections, document evidence, and where each entry came from—without silently rewriting the past.</p>
-        </div>
-        <div className="landing-trust-record">
-          <div><ShieldCheck size={22} /><span>Receipt documented</span><strong>Oil-filter-housing gasket replacement</strong></div>
-          <dl>
-            <div><dt>Date</dt><dd>June 14, 2026</dd></div>
-            <div><dt>Mileage</dt><dd>120,804 mi</dd></div>
-            <div><dt>Shop</dt><dd>Bavarian Auto Works</dd></div>
-          </dl>
-          <span className="landing-planned">Historical locking planned</span>
-        </div>
-      </section>
+        <section className="landing-white-section landing-glovebox-section">
+          <SectionIntro number="4" title="Your digital glovebox." description="All your important documents, receipts, and records in one secure place." />
+          <div className="landing-glovebox-board">
+            <GloveboxItem icon={FileCheck2} title="Registration" detail="Expires Oct 2026" />
+            <GloveboxItem icon={ShieldCheck} title="Insurance" detail="Policy #GBK-123456" />
+            <GloveboxItem icon={Wrench} title="Warranty" detail="Active until 4/28/2028" />
+            <GloveboxItem icon={ReceiptText} title="Receipts" detail="Store and search" />
+            <GloveboxItem icon={FileText} title="Invoices" detail="Organize and track" />
+            <GloveboxItem icon={ImageIcon} title="Photos" detail="Keep everything safe" />
+            <div className="landing-folder-visual" aria-hidden="true"><FolderLock size={40} /><span>Vehicle files</span></div>
+          </div>
+        </section>
 
-      <section className="landing-pricing" id="pricing">
-        <div className="landing-pricing-heading">
-          <h2>Start with a garage that is genuinely useful.</h2>
-          <p>Core ownership records stay available on the free plan. Plus is the planned home for expanded storage and advanced tools.</p>
-        </div>
-        <div className="landing-price-grid">
-          <article>
-            <h3>{pricing.free.name}</h3><strong>{pricing.free.price}</strong><p>{pricing.free.description}</p>
-            <ul>{currentFeatures.map((feature) => <li key={feature}><Check size={15} />{feature}</li>)}</ul>
-            <Link className="landing-button landing-button-dark" href="/signup">Start free <ArrowRight size={17} /></Link>
-          </article>
-          <article className="landing-price-plus">
-            <span className="landing-planned">Planned</span>
-            <h3>{pricing.plus.name}</h3><strong>{pricing.plus.price}<small>{pricing.plus.cadence}</small></strong><p>{pricing.plus.description}</p>
-            <ul><li><Check size={15} />Unlimited vehicles</li><li><Check size={15} />Expanded document storage</li><li><Check size={15} />Advanced tools as they launch</li><li><Check size={15} />Family and history-report features</li></ul>
-            <span className="landing-price-note">Not yet available for purchase</span>
-          </article>
-        </div>
-      </section>
+        <section className="landing-white-section landing-history-section">
+          <SectionIntro number="5" title="A history you can trust." description="Every entry is recorded in a connected timeline with a clear record of what happened and when." />
+          <div className="landing-history-table">
+            <HistoryLine tone="owner" title="Oil change" source="Owner reported" date="Feb 10, 2026" mileage="118,650 mi" />
+            <HistoryLine tone="receipt" title="Front brake pads" source="Receipt documented" date="Nov 28, 2025" mileage="115,200 mi" />
+            <HistoryLine tone="amended" title="Air filter replacement" source="Amended" date="Aug 15, 2024" mileage="102,450 mi" />
+            <HistoryLine tone="void" title="Coolant flush" source="Voided" date="Jun 02, 2024" mileage="98,120 mi" />
+          </div>
+        </section>
+
+        <section className="landing-comparison-section" id="compare">
+          <div className="landing-comparison-table">
+            <div className="landing-comparison-title"><strong>GarageBook at a glance</strong><span>Free</span><span>Plus<small>Coming soon</small></span></div>
+            {comparisonFeatures.map((feature) => <div className="landing-comparison-row" key={feature}><span>{feature}</span><Check size={15} /><small>Coming soon</small></div>)}
+          </div>
+          <div className="landing-pricing-inline" id="pricing">
+            <h2>Simple pricing.</h2>
+            <div>
+              <article>
+                <h3>Free</h3><span>Always</span><strong>{pricing.free.price}</strong><p>Everything you need to get started.</p>
+                <Link className="landing-button landing-button-dark" href="/signup">Get GarageBook free <ArrowRight size={16} /></Link>
+              </article>
+              <article className="landing-plus-card">
+                <h3>Plus</h3><span>Coming soon</span><strong>{pricing.plus.price}<small>{pricing.plus.cadence} target</small></strong><p>Unlock smarter tools and planned capabilities.</p>
+                <button disabled type="button">Coming soon</button>
+              </article>
+            </div>
+          </div>
+        </section>
+      </div>
 
       <section className="landing-final-cta">
-        <div><h2>Your car already has a story.</h2><p>Give every repair, receipt, and reminder one place to belong.</p></div>
+        <div><h2>Everything about your car. One garage.</h2><p>Keep every vehicle and record in one organized place.</p></div>
         <Link className="landing-button landing-button-dark" href="/signup">Get GarageBook free <ArrowRight size={17} /></Link>
       </section>
 
       <footer className="landing-footer">
-        <Brand /><p>Private vehicle ownership records, organized around the whole repair journey.</p>
-        <div><Link href="/login">Log in</Link><Link href="/signup">Create account</Link></div>
+        <Brand /><p>Your cars. Your records. All in one place.</p>
+        <div><Link href="#features">Features</Link><Link href="#compare">Compare</Link><Link href="/login">Log in</Link></div>
       </footer>
     </main>
   );
 }
 
-function JourneyStep({ icon: Icon, label, detail }: { icon: React.ComponentType<{ size?: number }>; label: string; detail: string }) {
-  return <li><span><Icon size={18} /></span><strong>{label}</strong><small>{detail}</small></li>;
+function SectionIntro({ number, title, description }: { number: string; title: string; description: string }) {
+  return <div className="landing-section-intro"><h2><span>{number}.</span> {title}</h2><p>{description}</p></div>;
+}
+
+function VehicleCard({ className, year, name, mileage }: { className: string; year: string; name: string; mileage: string }) {
+  return <article className={`landing-vehicle-card ${className}`}><div><span>{year}</span><strong>{name}</strong><small>{mileage}</small></div><Check size={17} /></article>;
+}
+
+function ServiceLine({ tone, title, detail, status }: { tone: string; title: string; detail: string; status: string }) {
+  return <div className={`landing-service-line landing-service-${tone}`}><span><Wrench size={15} /></span><div><strong>{title}</strong><small>{detail}</small></div><b>{status}</b></div>;
+}
+
+function PlannedTool({ icon: Icon, title, description }: { icon: React.ComponentType<{ size?: number }>; title: string; description: string }) {
+  return <article><Icon size={32} /><div><span>Coming soon</span><h3>{title}</h3><p>{description}</p></div></article>;
+}
+
+function GloveboxItem({ icon: Icon, title, detail }: { icon: React.ComponentType<{ size?: number }>; title: string; detail: string }) {
+  return <div><Icon size={21} /><span><strong>{title}</strong><small>{detail}</small></span></div>;
+}
+
+function HistoryLine({ tone, title, source, date, mileage }: { tone: string; title: string; source: string; date: string; mileage: string }) {
+  const Icon = tone === "owner" ? Check : tone === "receipt" ? ReceiptText : tone === "void" ? History : MapPin;
+  return <div className={`landing-history-line landing-history-${tone}`}><span><Icon size={14} /></span><strong>{title}</strong><em>{source}</em><small>{date}<br />{mileage}</small><LockKeyhole size={15} /></div>;
 }
