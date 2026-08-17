@@ -4,6 +4,7 @@ import { calculateMaintenanceStatus } from "@/lib/domain/maintenance-status";
 import { redirect } from "next/navigation";
 import type { RepairCaseStatus } from "@/lib/domain/repair-case";
 import { getReminderUrgency, sortReminders, type ReminderUrgency } from "@/lib/domain/reminder";
+import { getDocumentDeliveryUrl } from "@/lib/domain/document-delivery";
 
 export interface VehicleRecord { id:string; year:number; make:string; model:string; trim:string|null; current_mileage:number; vin:string|null; color:string|null; created_at:string }
 export interface VehiclePhotoRecord { id:string;file_name:string;uploaded_at:string;url:string }
@@ -28,13 +29,14 @@ export async function getVehicles():Promise<VehicleRecord[]>{ const auth=await r
 export async function getVehicle(id:string){ const auth=await requireUser(); if(!auth)return null; const {data,error}=await auth.supabase.from("vehicles").select("id,year,make,model,trim,current_mileage,vin,color,created_at").eq("id",id).maybeSingle(); if(error)throw error; return data as VehicleRecord|null; }
 export async function getVehiclePhotos(vehicleId:string,limit=8):Promise<VehiclePhotoRecord[]>{
  const auth=await requireUser();
- const {data,error}=await auth.supabase.from("documents").select("id,file_name,storage_path,uploaded_at").eq("vehicle_id",vehicleId).eq("document_type","photo").is("repair_case_id",null).order("uploaded_at",{ascending:false}).limit(limit);
+ const {data,error}=await auth.supabase.from("documents").select("id,file_name,uploaded_at").eq("vehicle_id",vehicleId).eq("document_type","photo").is("repair_case_id",null).order("uploaded_at",{ascending:false}).limit(limit);
  if(error)throw error;
- const photos=await Promise.all((data??[]).map(async photo=>{
-  const signed=await auth.supabase.storage.from("vehicle-documents").createSignedUrl(photo.storage_path,3600);
-  return signed.data?.signedUrl?{id:photo.id,file_name:photo.file_name,uploaded_at:photo.uploaded_at,url:signed.data.signedUrl}:null;
+ return (data??[]).map(photo=>({
+  id:photo.id,
+  file_name:photo.file_name,
+  uploaded_at:photo.uploaded_at,
+  url:getDocumentDeliveryUrl(photo.id,true),
  }));
- return photos.filter((photo):photo is VehiclePhotoRecord=>photo!==null);
 }
 export async function getVehicleRepairCases(vehicleId:string):Promise<RepairCaseRecord[]>{ const auth=await requireUser(); const {data,error}=await auth.supabase.from("repair_cases").select("id,vehicle_id,symptom_id,shop_id,maintenance_record_id,title,status,opened_at,closed_at,symptom:symptoms(title,description,severity,status,warning_light,first_noticed_at,mileage),shop:shops(name),maintenanceRecord:maintenance_records(id,title,performed_at,mileage,cost)").eq("vehicle_id",vehicleId).order("opened_at",{ascending:false}); if(error)throw error; return (data??[]) as unknown as RepairCaseRecord[]; }
 export async function getRepairCase(vehicleId:string,repairCaseId:string):Promise<RepairCaseRecord|null>{ const auth=await requireUser(); const {data,error}=await auth.supabase.from("repair_cases").select("id,vehicle_id,symptom_id,shop_id,maintenance_record_id,title,status,opened_at,closed_at,symptom:symptoms(title,description,severity,status,warning_light,first_noticed_at,mileage),shop:shops(name),maintenanceRecord:maintenance_records(id,title,performed_at,mileage,cost)").eq("id",repairCaseId).eq("vehicle_id",vehicleId).maybeSingle(); if(error)throw error; return data as unknown as RepairCaseRecord|null; }
