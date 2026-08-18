@@ -43,10 +43,11 @@ export function ReminderForm({ vehicleId, currentMileage, returnTo }: { vehicleI
           id="reminder-mileage"
           inputMode="numeric"
           min={currentMileage}
-          placeholder={`Current: ${currentMileage.toLocaleString()} mi`}
+          placeholder="e.g. 125000"
           type="number"
           {...register("dueMileage", { setValueAs: (value) => value === "" ? undefined : Number(value) })}
         />
+        <p className="field-help">Current mileage: {currentMileage.toLocaleString()} mi</p>
         {errors.dueMileage && <p className="field-error" role="alert">{errors.dueMileage.message}</p>}
       </div>
 

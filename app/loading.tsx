@@ -1,2 +1,1 @@
-import { LoadingState } from "@/components/states";
-export default function Loading(){return <main className="mx-auto max-w-7xl p-6"><LoadingState/></main>}
+export default function Loading(){return <div className="route-loading" role="status" aria-label="Loading page"><span/></div>}

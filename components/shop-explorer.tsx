@@ -35,7 +35,6 @@ export function ShopExplorer({ apiKey, savedShops }: { apiKey: string; savedShop
   const [loading, setLoading] = useState(false);
   const [mobileView, setMobileView] = useState<"list" | "map">("list");
   const [savingId, startSaving] = useTransition();
-  const initialAddress = savedShops[0]?.address;
 
   const runSearch = useCallback(async (input: SearchInput) => {
     setLoading(true); setError(undefined); setNotice(undefined);
@@ -51,7 +50,7 @@ export function ShopExplorer({ apiKey, savedShops }: { apiKey: string; savedShop
   }, []);
 
   useEffect(() => {
-    if (!apiKey || !mapElement.current) return;
+    if (!apiKey || !mapElement.current || !shops.length || map.current) return;
     let active = true;
     loadGoogleMaps(apiKey).then(([{ Map }]) => {
       if (!active || !mapElement.current) return;
@@ -61,10 +60,9 @@ export function ShopExplorer({ apiKey, savedShops }: { apiKey: string; savedShop
         styles: [{ featureType: "poi.business", stylers: [{ visibility: "off" }] }],
       });
       setMapReady(true);
-      if (initialAddress) void runSearch({ query: initialAddress, radiusMiles: 10 });
     }).catch(() => setError("The map could not load. Check the browser key’s website and Maps JavaScript API restrictions."));
     return () => { active = false; };
-  }, [apiKey, initialAddress, runSearch]);
+  }, [apiKey, shops.length]);
 
   useEffect(() => {
     if (!mapReady || !map.current) return;
@@ -76,7 +74,7 @@ export function ShopExplorer({ apiKey, savedShops }: { apiKey: string; savedShop
       const saved = isSavedShop(shop, savedShops);
       const marker = new google.maps.Marker({
         map: map.current, position: { lat: shop.latitude, lng: shop.longitude }, title: shop.name,
-        label: { text: saved ? "✓" : String(index + 1), color: saved ? "#ffffff" : "#191c1d", fontWeight: "700", fontSize: "11px" },
+        label: { text: saved ? "✓" : String(index + 1), color: saved ? "#ffffff" : "#191c1d", fontWeight: "700", fontSize: "12px" },
         icon: { path: google.maps.SymbolPath.CIRCLE, fillColor: saved ? "#14897f" : "#f3bd3d", fillOpacity: 1, strokeColor: "#fffdf9", strokeWeight: 2, scale: saved ? 15 : 13 },
       });
       marker.addListener("click", () => { setSelectedId(shop.googlePlaceId); setMobileView("list"); });
@@ -160,6 +158,7 @@ export function ShopExplorer({ apiKey, savedShops }: { apiKey: string; savedShop
       <div className={`shop-map-wrap ${mobileView==="list"?"shop-mobile-hidden":""}`}>
         <div className="shop-map" ref={mapElement}/>
         {!apiKey&&<div className="shop-map-overlay"><strong>Map setup needed</strong><p>Add the browser map key to `.env.local`, then restart GarageBook.</p></div>}
+        {apiKey&&!shops.length&&<div className="shop-map-overlay shop-map-idle"><MapIcon size={24}/><strong>Map appears after your search</strong><p>Enter a location or use your current location to find nearby repair shops.</p></div>}
         {selected&&<div className="shop-map-selection"><span>{isSavedShop(selected,savedShops)?"In My Shops":"Selected shop"}</span><strong>{selected.name}</strong><small>{selected.address}</small></div>}
         <small className="shop-map-credit">Shop data from Google Maps</small>
       </div>

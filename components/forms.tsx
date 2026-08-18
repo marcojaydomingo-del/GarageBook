@@ -236,7 +236,7 @@ export function SymptomForm({
       title: symptom?.title??"",
       firstNoticed: symptom?.firstNoticed??localDateToday(),
       mileage: symptom?.mileage??mileage,
-      severity: symptom?.severity??"medium",
+      severity: symptom?.severity,
       frequency: symptom?.frequency??"intermittent",
       description: symptom?.description??"",
       warningLight: symptom?.warningLight??false,
@@ -252,8 +252,8 @@ export function SymptomForm({
     <FormFrame error={serverError}>
       <form className="grid gap-5 sm:grid-cols-2" onSubmit={submit}>
         <div className="sm:col-span-2">
-          <Field label="What’s happening?" error={errors.title?.message}>
-            <input {...register("title")} />
+          <Field label="Short title" error={errors.title?.message}>
+            <input placeholder="e.g. Grinding noise when braking" {...register("title")} />
           </Field>
         </div>
         <Field label="First noticed" error={errors.firstNoticed?.message}>
@@ -262,8 +262,9 @@ export function SymptomForm({
         <Field label="Mileage" error={errors.mileage?.message}>
           <input type="number" {...register("mileage", { valueAsNumber: true })} />
         </Field>
-        <Field label="Severity">
+        <Field label="Severity" error={errors.severity?.message}>
           <select {...register("severity")}>
+            <option value="">Choose severity</option>
             <option value="low">Low — monitor</option>
             <option value="medium">Medium — schedule soon</option>
             <option value="high">High — stop driving</option>
@@ -278,10 +279,10 @@ export function SymptomForm({
         </Field>
         <div className="sm:col-span-2">
           <Field
-            label="Describe the symptom"
+            label="Details"
             error={errors.description?.message}
           >
-            <textarea {...register("description")} />
+            <textarea placeholder="Describe when it happens, what it sounds or feels like, and anything that makes it better or worse." {...register("description")} />
           </Field>
         </div>
         <label className="sm:col-span-2 flex items-center gap-3 rounded-xl border border-[#dde3df] p-4 text-sm font-medium">

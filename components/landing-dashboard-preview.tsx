@@ -5,10 +5,8 @@ import {
   CarFront,
   Check,
   FileText,
-  History,
   LayoutDashboard,
   Plus,
-  ReceiptText,
   Store,
   Wrench,
 } from "lucide-react";
@@ -36,19 +34,16 @@ function DesktopDashboardScreen() {
       <aside className="landing-desktop-sidebar">
         <strong>GarageBook</strong>
         <nav aria-label="Desktop dashboard preview navigation">
-          <span className="active"><LayoutDashboard size={11} />Overview</span>
-          <span><History size={11} />Timeline</span>
-          <span><Wrench size={11} />Maintenance</span>
-          <span><AlertTriangle size={11} />Symptoms</span>
-          <span><ReceiptText size={11} />Documents</span>
-          <span><Store size={11} />Shops</span>
+          <span className="active"><LayoutDashboard size={11} />Dashboard</span>
+          <span><CarFront size={11} />Vehicles</span>
+          <span><Store size={11} />Repair shops</span>
         </nav>
-        <small><Check size={9} /> Records up to date</small>
+        <small><Check size={9} /> No overdue items</small>
       </aside>
       <div className="landing-desktop-main">
         <header>
           <div><small>2014</small><h3>MINI Cooper S Paceman</h3></div>
-          <span><Check size={9} /> Healthy</span>
+          <span><Check size={9} /> No open items</span>
         </header>
         <div className="landing-desktop-summary">
           <div><small>Current mileage</small><strong>121,450 <em>mi</em></strong></div>
@@ -84,7 +79,7 @@ function DashboardScreen() {
         </div>
         <div className="landing-phone-intro">
           <p>Your MINI, one clear record.</p>
-          <span className="landing-phone-status"><Check size={10} /> Up to date</span>
+          <span className="landing-phone-status"><Check size={10} /> No open items</span>
         </div>
         <div className="landing-phone-vehicle">
           <div><small>2014</small><strong>MINI Cooper S Paceman</strong></div>

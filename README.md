@@ -34,6 +34,8 @@ The repository also contains an Expo/React Native client in `apps/mobile`. It ta
 - Persistent light, dark, or system theme preference
 - Shared shops plus private per-user shop preferences and notes
 - Future-ready warranties, estimates, and estimate-item schema
+- Public read-only sample garage at `/demo` using clearly labeled fictional records
+- Public beta privacy, terms, and contact pages linked from the landing-page footer
 
 Sample MINI data remains in `lib/sample-data.ts` only as an optional development/demo utility. Authenticated pages never mix it into persisted records.
 

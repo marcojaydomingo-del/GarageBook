@@ -1,8 +1,9 @@
 import Link from "next/link";
+import type { LucideIcon } from "lucide-react";
 import {
   ArrowRight,
-  Bot,
   Check,
+  CircleAlert,
   CirclePlus,
   FileCheck2,
   FileText,
@@ -12,9 +13,8 @@ import {
   LockKeyhole,
   MapPin,
   ReceiptText,
-  ScanLine,
   ShieldCheck,
-  Sparkles,
+  Store,
   Wrench,
 } from "lucide-react";
 import { Brand } from "@/components/brand";
@@ -26,11 +26,10 @@ import { pricing } from "@/lib/pricing";
 const comparisonFeatures = [
   "Vehicle profiles",
   "Maintenance & repair history",
-  "Reminders & notifications",
-  "Document storage",
+  "Service reminders",
+  "Document & photo storage",
   "Shops & contacts",
-  "Mobile & desktop access",
-  "Export your data",
+  "Mobile-ready web access",
 ];
 
 export default function Home() {
@@ -43,7 +42,7 @@ export default function Home() {
           <nav className="landing-links" aria-label="Main navigation">
             <a href="#features">Features</a>
             <a href="#how-it-works">How it works</a>
-            <a href="#compare">Compare</a>
+            <Link href="/demo">Sample garage</Link>
             <a href="#pricing">Pricing</a>
           </nav>
           <nav className="landing-account" aria-label="Account navigation">
@@ -64,7 +63,7 @@ export default function Home() {
             <p>Maintenance, repairs, symptoms, receipts, and history—together.</p>
             <div className="landing-hero-actions">
               <Link className="landing-button landing-button-dark" href="/signup">Get GarageBook free <ArrowRight size={17} /></Link>
-              <a className="landing-button landing-button-ghost" href="#how-it-works">See how it works <ArrowRight size={17} /></a>
+              <Link className="landing-button landing-button-ghost" href="/demo">Explore sample garage <ArrowRight size={17} /></Link>
             </div>
           </div>
         </div>
@@ -72,7 +71,7 @@ export default function Home() {
 
       <div className="landing-editorial" id="features">
         <section className="landing-white-section landing-garage-section">
-          <SectionIntro number="1" title="Your entire garage, organized." description="Add every vehicle you own. Switch between profiles to see everything in one place." />
+          <SectionIntro title="Your entire garage, organized." description="Add every vehicle you own. Switch between profiles to see everything in one place." />
           <div className="landing-vehicle-comparison">
             <VehicleCard className="landing-vehicle-paceman" year="2014" name="MINI Cooper S Paceman" mileage="121,450 mi" />
             <VehicleCard className="landing-vehicle-gt3" year="2023" name="Porsche 911 GT3 RS" mileage="8,420 mi" />
@@ -81,7 +80,7 @@ export default function Home() {
         </section>
 
         <section className="landing-white-section landing-service-section" id="how-it-works">
-          <SectionIntro number="2" title="Never forget another service." description="Keep up with maintenance and upcoming tasks so your car stays in top shape." />
+          <SectionIntro title="Never forget another service." description="Keep up with maintenance and upcoming tasks based on the records you have documented." />
           <div className="landing-service-list">
             <ServiceLine tone="complete" title="Oil change" detail="118,650 mi · Feb 10, 2026" status="Completed" />
             <ServiceLine tone="due" title="Brake fluid flush" detail="Recommended every 2 years" status="Due in 30 days" />
@@ -89,17 +88,24 @@ export default function Home() {
           </div>
         </section>
 
-        <section className="landing-smart-band">
-          <h2><span>3.</span> Smarter tools for every car owner.</h2>
-          <div className="landing-smart-grid">
-            <PlannedTool icon={Bot} title="GarageBook AI" description="Ask questions and understand your car’s recorded history like never before." />
-            <PlannedTool icon={ScanLine} title="Snap a receipt" description="Upload a photo, review extracted details, and file it to your vehicle." />
-            <PlannedTool icon={Sparkles} title="Know what’s coming" description="Forecast maintenance and costs so you can plan ahead with confidence." />
+        <section className="landing-smart-band" aria-labelledby="repair-journey-title">
+          <div className="landing-journey-copy">
+            <h2 id="repair-journey-title">One repair journey. No missing context.</h2>
+            <p>Connect the first symptom to the final record instead of scattering the story across notes, photos, and paperwork.</p>
           </div>
+          <ol className="landing-connected-journey" aria-label="Connected repair journey">
+            <JourneyStage icon={CircleAlert} label="Symptom" />
+            <JourneyStage icon={Store} label="Shop" />
+            <JourneyStage icon={FileText} label="Estimate" />
+            <JourneyStage icon={Wrench} label="Repair" />
+            <JourneyStage icon={ReceiptText} label="Invoice" />
+            <JourneyStage icon={ShieldCheck} label="Warranty" />
+            <JourneyStage icon={History} label="History" />
+          </ol>
         </section>
 
         <section className="landing-white-section landing-glovebox-section">
-          <SectionIntro number="4" title="Your digital glovebox." description="All your important documents, receipts, and records in one secure place." />
+          <SectionIntro title="Your digital glovebox." description="Keep photos, receipts, invoices, and supporting records attached to the vehicle they belong to." />
           <div className="landing-glovebox-board">
             <GloveboxItem icon={FileCheck2} title="Registration" detail="Expires Oct 2026" />
             <GloveboxItem icon={ShieldCheck} title="Insurance" detail="Policy #GBK-123456" />
@@ -112,7 +118,7 @@ export default function Home() {
         </section>
 
         <section className="landing-white-section landing-history-section">
-          <SectionIntro number="5" title="A history you can trust." description="Every entry is recorded in a connected timeline with a clear record of what happened and when." />
+          <SectionIntro title="Know what was reported—and what was documented." description="A connected timeline preserves where each record came from and keeps corrections visible instead of silently rewriting history." />
           <div className="landing-history-table">
             <HistoryLine tone="owner" title="Oil change" source="Owner reported" date="Feb 10, 2026" mileage="118,650 mi" />
             <HistoryLine tone="receipt" title="Front brake pads" source="Receipt documented" date="Nov 28, 2025" mileage="115,200 mi" />
@@ -124,7 +130,7 @@ export default function Home() {
         <section className="landing-everywhere-band" aria-labelledby="landing-everywhere-title">
           <div className="landing-everywhere-inner">
             <div className="landing-everywhere-copy">
-              <h2 id="landing-everywhere-title"><span>6.</span> Your garage,<br />on every screen.</h2>
+              <h2 id="landing-everywhere-title">Your garage,<br />on every screen.</h2>
               <p>Review the complete vehicle story on desktop. Capture mileage, symptoms, photos, and receipts when you’re with the car.</p>
               <small>Web available · Native iOS and Android in development</small>
             </div>
@@ -134,19 +140,15 @@ export default function Home() {
 
         <section className="landing-comparison-section" id="compare">
           <div className="landing-comparison-table">
-            <div className="landing-comparison-title"><strong>GarageBook at a glance</strong><span>Free</span><span>Plus<small>Coming soon</small></span></div>
-            {comparisonFeatures.map((feature) => <div className="landing-comparison-row" key={feature}><span>{feature}</span><Check size={15} /><small>Coming soon</small></div>)}
+            <div className="landing-comparison-title"><strong>Included in the beta</strong><span>Available now</span></div>
+            {comparisonFeatures.map((feature) => <div className="landing-comparison-row" key={feature}><span>{feature}</span><span className="landing-included"><Check aria-hidden="true" size={15} />Included</span></div>)}
           </div>
           <div className="landing-pricing-inline" id="pricing">
             <h2>Simple pricing.</h2>
-            <div>
+            <div className="landing-pricing-cards">
               <article>
-                <h3>Free</h3><span>Always</span><strong>{pricing.free.price}</strong><p>Everything you need to get started.</p>
+                <h3>GarageBook Beta</h3><span>Free during beta testing</span><strong>{pricing.free.price}</strong><p>Create your garage, document maintenance and repairs, upload records, and help shape what comes next.</p>
                 <Link className="landing-button landing-button-dark" href="/signup">Get GarageBook free <ArrowRight size={16} /></Link>
-              </article>
-              <article className="landing-plus-card">
-                <h3>Plus</h3><span>Coming soon</span><strong>{pricing.plus.price}<small>{pricing.plus.cadence} target</small></strong><p>Unlock smarter tools and planned capabilities.</p>
-                <button disabled type="button">Coming soon</button>
               </article>
             </div>
           </div>
@@ -159,15 +161,15 @@ export default function Home() {
       </section>
 
       <footer className="landing-footer">
-        <Brand /><p>Your cars. Your records. All in one place.</p>
-        <div><Link href="#features">Features</Link><Link href="#compare">Compare</Link><Link href="/login">Log in</Link></div>
+        <Brand /><p>Everything about your car. One garage.</p>
+        <div><Link href="/demo">Sample garage</Link><Link href="/privacy">Privacy</Link><Link href="/terms">Terms</Link><Link href="/contact">Contact</Link><Link href="/login">Log in</Link></div>
       </footer>
     </main>
   );
 }
 
-function SectionIntro({ number, title, description }: { number: string; title: string; description: string }) {
-  return <div className="landing-section-intro"><h2><span>{number}.</span> {title}</h2><p>{description}</p></div>;
+function SectionIntro({ title, description }: { title: string; description: string }) {
+  return <div className="landing-section-intro"><h2>{title}</h2><p>{description}</p></div>;
 }
 
 function VehicleCard({ className, year, name, mileage }: { className: string; year: string; name: string; mileage: string }) {
@@ -178,8 +180,8 @@ function ServiceLine({ tone, title, detail, status }: { tone: string; title: str
   return <div className={`landing-service-line landing-service-${tone}`}><span><Wrench size={15} /></span><div><strong>{title}</strong><small>{detail}</small></div><b>{status}</b></div>;
 }
 
-function PlannedTool({ icon: Icon, title, description }: { icon: React.ComponentType<{ size?: number }>; title: string; description: string }) {
-  return <article><Icon size={32} /><div><span>Coming soon</span><h3>{title}</h3><p>{description}</p></div></article>;
+function JourneyStage({ icon: Icon, label }: { icon: LucideIcon; label: string }) {
+  return <li><span><Icon aria-hidden="true" size={17} /></span><strong>{label}</strong></li>;
 }
 
 function GloveboxItem({ icon: Icon, title, detail }: { icon: React.ComponentType<{ size?: number }>; title: string; detail: string }) {

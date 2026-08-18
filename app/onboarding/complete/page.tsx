@@ -6,7 +6,7 @@ import { Brand } from "@/components/brand";
 import { DocumentUpload } from "@/components/document-upload";
 import { getVehicle,getVehiclePhotos,getVehicleSummary } from "@/lib/data/garage";
 
-const addedCopy={maintenance:"Recent maintenance added to the starting history.",symptom:"Current problem added and connected to a repair journey.",reminder:"Upcoming service added to the starting snapshot."} as const;
+const addedCopy={maintenance:"Recent maintenance added to the starting history.",symptom:"Current symptom added and connected to a repair journey.",reminder:"Upcoming service added to the starting snapshot."} as const;
 
 export default async function OnboardingCompletePage({searchParams}:{searchParams:Promise<{vehicle?:string;added?:keyof typeof addedCopy}>}){
   const {vehicle:vehicleId,added}=await searchParams;if(!vehicleId)notFound();
@@ -24,7 +24,7 @@ export default async function OnboardingCompletePage({searchParams}:{searchParam
         <BaselineFact label="Mileage" complete/>
         <BaselineFact label="Photo" complete={photos.length>0}/>
         <BaselineFact label="History" complete={summary.maintenanceCount>0}/>
-        <BaselineFact label="Problem" complete={summary.openSymptoms>0}/>
+        <BaselineFact label="Symptom" complete={summary.openSymptoms>0}/>
         <BaselineFact label="Next service" complete={summary.reminderCount>0}/>
       </div>
 
@@ -37,7 +37,7 @@ export default async function OnboardingCompletePage({searchParams}:{searchParam
 
         <div className="baseline-actions">
           <BaselineAction icon={Wrench} title="Add recent maintenance" description="Record the most recent service or repair you can verify." href={`/vehicles/${vehicle.id}/maintenance/new?onboarding=1`} count={summary.maintenanceCount?`${summary.maintenanceCount} saved`:undefined}/>
-          <BaselineAction icon={AlertTriangle} title="Log a current problem" description="Capture a noise, leak, warning light, or other symptom before diagnosis." href={`/vehicles/${vehicle.id}/symptoms/new?onboarding=1`} count={summary.openSymptoms?`${summary.openSymptoms} open`:undefined}/>
+          <BaselineAction icon={AlertTriangle} title="Log a current symptom" description="Capture a noise, leak, warning light, or other symptom before diagnosis." href={`/vehicles/${vehicle.id}/symptoms/new?onboarding=1`} count={summary.openSymptoms?`${summary.openSymptoms} open`:undefined}/>
           <BaselineAction icon={BellRing} title="Schedule the next service" description="Add a known due date, mileage, or both." href={`/vehicles/${vehicle.id}/reminders/new?onboarding=1`}/>
           <BaselineAction icon={FileText} title="Add existing documents later" description="Receipts and invoices can be attached from the vehicle record when convenient." href={`/vehicles/${vehicle.id}#documents`}/>
         </div>

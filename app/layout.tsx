@@ -7,7 +7,7 @@ const geistMono = Geist_Mono({ variable: "--font-geist-mono", subsets: ["latin"]
 
 export const metadata: Metadata = {
   metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL ?? "http://localhost:3000"),
-  title: { default: "GarageBook — Your vehicle history, organized", template: "%s · GarageBook" },
+  title: { default: "GarageBook — Everything about your car. One garage.", template: "%s · GarageBook" },
   description: "Track maintenance, symptoms, repairs, documents, and shops in one clear vehicle history.",
   icons: { icon: "/garagebook-favicon.svg", shortcut: "/garagebook-favicon.svg" },
   openGraph: { type:"website",siteName:"GarageBook",url:"/",title:"Everything about your car. One garage.",description:"Maintenance, repairs, symptoms, receipts, and vehicle history—together." },

@@ -31,7 +31,7 @@ export default async function Dashboard({searchParams}:DashboardProps){
   if(!summary)throw new Error("Unable to load vehicle summary");
   const lastMileageDate=timeline.find(({type})=>type==="mileage_update")?.date;
   const openSymptom=timeline.find(({type,status})=>type==="symptom"&&status!=="completed");
-  const statusClass=summary.status.label==="Up to date"?"status-good":summary.status.label==="Attention soon"?"status-watch":"status-action";
+  const statusClass=summary.status.label==="No open items"?"status-good":summary.status.label==="Attention soon"?"status-watch":"status-action";
   const activeCase=summary.activeRepairCase;
   const {data:tourProfile}=await auth.supabase.from("profiles").select("dashboard_tour_version").eq("id",auth.user.id).maybeSingle();
   const completedTourVersion=typeof tourProfile?.dashboard_tour_version==="number"?tourProfile.dashboard_tour_version:0;
@@ -55,15 +55,17 @@ export default async function Dashboard({searchParams}:DashboardProps){
           <div className="vehicle-mileage"><span>Current mileage</span><strong>{formatMileage(vehicle.current_mileage)} <small>mi</small></strong><p>{lastMileageDate?`Recorded ${formatDate(lastMileageDate)}`:"Recorded when this vehicle was added"}</p></div>
           <div className="vehicle-command-actions" data-tour="actions">
             <Link className="dashboard-primary-action" href={`/vehicles/${vehicle.id}/maintenance/new`}><Wrench size={17}/>Add service or repair<ArrowRight size={16}/></Link>
-            <Link href={`/vehicles/${vehicle.id}/symptoms/new`}><AlertTriangle size={16}/>Log a problem</Link>
+            <Link href={`/vehicles/${vehicle.id}/symptoms/new`}><AlertTriangle size={16}/>Log a symptom</Link>
             <Link href={photos.length?`/vehicles/${vehicle.id}/photos`:`/vehicles/${vehicle.id}#ride-photos`}><Camera size={16}/>{photos.length?"Open photo gallery":"Add vehicle photo"}</Link>
           </div>
         </div>
       </div>
 
       <div className="service-planner">
-        <PlannerRow icon={CalendarClock} tone="amber" label="Next scheduled service" value={reminders[0]?.title??"No service scheduled"} href={`/vehicles/${vehicle.id}/reminders/new`} action={reminders[0]?"Review plan":"Schedule service"}/>
-        <PlannerRow icon={AlertTriangle} tone="orange" label="Open symptoms" value={openSymptom?.title??"No symptoms awaiting follow-up"} href={`/vehicles/${vehicle.id}/symptoms/new`} action={summary.openSymptoms?"Review problem":"Log a problem"}/>
+        {!reminders.length&&!summary.openSymptoms?<PlannerSetup vehicleId={vehicle.id}/>:<>
+          <PlannerRow icon={CalendarClock} tone="amber" label="Next scheduled service" value={reminders[0]?.title??"Not scheduled"} href={`/vehicles/${vehicle.id}/reminders/new`} action={reminders[0]?"Review plan":"Schedule service"}/>
+          <PlannerRow icon={AlertTriangle} tone="orange" label="Open symptoms" value={openSymptom?.title??"None recorded"} href={`/vehicles/${vehicle.id}/symptoms/new`} action={summary.openSymptoms?"Review symptom":"Log a symptom"}/>
+        </>}
       </div>
     </section>
 
@@ -72,11 +74,11 @@ export default async function Dashboard({searchParams}:DashboardProps){
     <section className="dashboard-workspace">
       <div className="history-panel" data-tour="history">
         <div className="panel-heading"><div><h2>Recent vehicle history</h2><p>The latest evidence across maintenance, repairs, symptoms, mileage, and documents.</p></div><Link href={`/vehicles/${vehicle.id}`}>View full history <ArrowRight size={15}/></Link></div>
-        {timeline.length?<VehicleTimeline compact events={timeline.slice(0,5)}/>:<EmptyState title="No vehicle activity yet" description="Add maintenance or log a problem to begin this vehicle’s history."/>}
+        {timeline.length?<VehicleTimeline compact events={timeline.slice(0,5)}/>:<EmptyState title="No vehicle activity yet" description="Add maintenance or log a symptom to begin this vehicle’s history."/>}
       </div>
 
       <aside className="service-sidecar">
-        <section data-tour="reminders"><div className="sidecar-heading"><h2>Service reminders</h2><Link href={`/vehicles/${vehicle.id}/reminders/new`} aria-label="Add reminder"><Plus size={16}/></Link></div><ReminderList limit={2} reminders={reminders} vehicleId={vehicle.id}/></section>
+        {reminders.length>0&&<section data-tour="reminders"><div className="sidecar-heading"><h2>Service reminders</h2><Link href={`/vehicles/${vehicle.id}/reminders/new`} aria-label="Add reminder"><Plus size={16}/></Link></div><ReminderList limit={2} reminders={reminders} vehicleId={vehicle.id}/></section>}
         <section className="record-overview"><h2>Record overview</h2><dl><OverviewRow icon={CircleDollarSign} label="Recorded spend" value={formatCurrency(summary.totalSpend)}/><OverviewRow icon={FileText} label="Documents" value={String(summary.documentCount)}/><OverviewRow icon={Wrench} label="Active cases" value={String(summary.unresolvedRepairCases)}/><OverviewRow icon={AlertTriangle} label="Open symptoms" value={String(summary.openSymptoms)}/></dl></section>
         <section className="quick-links"><h2>More actions</h2><Link href={`/onboarding/complete?vehicle=${vehicle.id}`}><Gauge size={16}/>Current-state setup<ArrowRight size={15}/></Link><Link href={`/vehicles/${vehicle.id}#documents`}><FileText size={16}/>Upload receipt<ArrowRight size={15}/></Link><Link href="/shops"><MapPin size={16}/>Repair shops<ArrowRight size={15}/></Link><Link href={`/vehicles/${vehicle.id}`}><ArrowRight size={16}/>Vehicle details<ArrowRight size={15}/></Link></section>
       </aside>
@@ -86,11 +88,13 @@ export default async function Dashboard({searchParams}:DashboardProps){
 
 function PlannerRow({icon:Icon,tone,label,value,href,action}:{icon:React.ComponentType<{size?:number}>;tone:"amber"|"orange";label:string;value:string;href:string;action:string}){return <article className={`planner-row planner-${tone}`}><span className="planner-icon"><Icon size={21}/></span><div><p>{label}</p><h3>{value}</h3></div><Link href={href}>{action}<ArrowRight size={16}/></Link></article>}
 
+function PlannerSetup({vehicleId}:{vehicleId:string}){return <div className="planner-setup"><div><CalendarClock size={24}/><h3>Plan what comes next</h3><p>Add a service reminder or record a symptom when you notice one. GarageBook reports only what you document.</p></div><div><Link className="btn btn-primary" href={`/vehicles/${vehicleId}/reminders/new`}>Schedule service</Link><Link className="btn btn-secondary" href={`/vehicles/${vehicleId}/symptoms/new`}>Log a symptom</Link></div></div>}
+
 function RepairRibbon({status,title,vehicleId,caseId}:{status:RepairCaseStatus|null;title?:string;vehicleId:string;caseId?:string}){
   const current=status?getRepairJourneyStep(status):-1;
   const stepIcons=[AlertTriangle,Store,FileText,Wrench,Receipt];
-  return <section className="repair-ribbon" aria-label="Connected repair journey" data-tour="journey">
-    <div className="repair-ribbon-title"><span>{status?repairCaseLabels[status]:"Repair journey"}</span><strong>{title??"No active repair journey"}</strong></div>
+  return <section className="repair-ribbon" aria-label="Repair case progress" data-tour="journey">
+    <div className="repair-ribbon-title"><span>{status?repairCaseLabels[status]:"Repair case progress"}</span><strong>{title??"Ready when you notice a symptom"}</strong></div>
     <ol>{repairJourneySteps.map((step,index)=>{const StepIcon=stepIcons[index]??Gauge;const complete=status==="completed"||index<current;const active=index===current&&status!=="completed";return <li className={complete?"complete":active?"active":""} key={step}><span>{complete?<Check size={14}/>:<StepIcon size={14}/>}</span><small>{step}</small></li>})}</ol>
     <Link href={caseId?`/vehicles/${vehicleId}/repairs/${caseId}`:`/vehicles/${vehicleId}/symptoms/new`}>{caseId?"Open journey":"Start with a symptom"}<ArrowRight size={15}/></Link>
   </section>;

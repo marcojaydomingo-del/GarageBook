@@ -10,7 +10,7 @@ export function RepairJourneySteps({ status }: { status:RepairCaseStatus }) {
   if (status === "closed") {
     return <div className="rounded-xl bg-[#f0f2ef] p-4">
       <p className="text-sm font-semibold">Closed without repair</p>
-      <p className="mt-1 text-sm leading-6 text-muted">The problem remains documented even though this repair journey ended without completed work.</p>
+      <p className="mt-1 text-sm leading-6 text-muted">The symptom remains documented even though this repair case ended without completed work.</p>
     </div>;
   }
 

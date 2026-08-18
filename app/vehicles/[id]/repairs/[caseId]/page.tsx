@@ -43,8 +43,8 @@ export default async function RepairCasePage({ params }: { params: Promise<{ id:
         <div className="space-y-6">
           <section className="card p-5 sm:p-7" aria-labelledby="journey-heading">
             <div className="mb-6">
-              <h2 className="text-xl font-semibold" id="journey-heading">Repair journey</h2>
-              <p className="mt-1 text-sm leading-6 text-muted">Advance the case only when that step has actually happened.</p>
+              <h2 className="text-xl font-semibold" id="journey-heading">Repair case progress</h2>
+              <p className="mt-1 text-sm leading-6 text-muted">Advance the case only when that step has happened. The shop, estimate, invoice, and optional warranty remain attached as evidence.</p>
             </div>
             <RepairJourneySteps status={repairCase.status}/>
             <div className="mt-7 border-t border-[#e5e8e5] pt-6">
@@ -53,7 +53,7 @@ export default async function RepairCasePage({ params }: { params: Promise<{ id:
           </section>
 
           <section className="card p-5 sm:p-7" aria-labelledby="symptom-heading">
-            <h2 className="text-lg font-semibold" id="symptom-heading">Reported problem</h2>
+            <h2 className="text-lg font-semibold" id="symptom-heading">Reported symptom</h2>
             {repairCase.symptom ? <>
               <p className="mt-4 text-base font-semibold">{repairCase.symptom.title}</p>
               <p className="mt-2 max-w-3xl text-sm leading-6 text-muted">{repairCase.symptom.description ?? "No additional description was recorded."}</p>

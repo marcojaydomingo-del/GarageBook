@@ -30,7 +30,7 @@ export default async function VehiclePage({params}:{params:Promise<{id:string}>}
 
     <section className="mb-8 grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
       <Stat label="Current mileage" value={`${formatMileage(vehicle.current_mileage)} mi`} icon={Gauge}/>
-      <Stat label="Record status" value={summary.status.label} icon={Wrench}/>
+      <Stat label="Documented status" value={summary.status.label} icon={Wrench}/>
       <Stat label="Recorded spend" value={formatCurrency(summary.totalSpend)} icon={Wrench}/>
       <Stat label="Active repair cases" value={String(activeCases.length)} icon={AlertTriangle}/>
     </section>
@@ -38,7 +38,7 @@ export default async function VehiclePage({params}:{params:Promise<{id:string}>}
     <section className="ride-photos mb-9" id="ride-photos" aria-labelledby="ride-photos-heading">
       <div className="ride-photo-copy"><h2 id="ride-photos-heading">Photos of your ride</h2><p>Add exterior, interior, modification, or condition photos. They stay private with the vehicle record.</p><DocumentUpload vehicleId={id} defaultType="photo" lockType photoOnly buttonLabel="Upload vehicle photo"/><Link className="btn btn-ghost mt-2 w-full" href={`/vehicles/${id}/photos`}>Open photo gallery <ArrowRight size={15}/></Link></div>
       <div className="ride-photo-gallery">
-        {photos.length?photos.slice(0,5).map((photo,index)=><figure className={index===0?"featured":""} key={photo.id}><Link href={`/vehicles/${id}/photos`}><Image alt={`${vehicle.year} ${vehicle.make} ${vehicle.model} uploaded photo`} fill priority={index===0} sizes={index===0?"(max-width: 1024px) 100vw, 52vw":"(max-width: 640px) 50vw, 260px"} src={photo.url} unoptimized/></Link><figcaption><span>{photo.file_name}</span><DocumentDeleteButton compact documentId={photo.id} vehicleId={id} fileName={photo.file_name}/></figcaption></figure>):<div className="ride-photo-empty"><Camera size={28}/><strong>No vehicle photos yet</strong><span>Your latest photo will also appear on the dashboard.</span></div>}
+        {photos.length?photos.slice(0,5).map((photo,index)=><figure className={index===0?"featured":""} key={photo.id}><Link href={`/vehicles/${id}/photos`}><Image alt={`${vehicle.year} ${vehicle.make} ${vehicle.model} uploaded photo`} fill priority={index===0} sizes={index===0?"(max-width: 1024px) 100vw, 52vw":"(max-width: 640px) 50vw, 260px"} src={photo.url} unoptimized/></Link><figcaption><span>{index===0?"Latest photo":`Uploaded ${formatDate(photo.uploaded_at)}`}</span><DocumentDeleteButton compact documentId={photo.id} vehicleId={id} fileName={photo.file_name}/></figcaption></figure>):<div className="ride-photo-empty"><Camera size={28}/><strong>No vehicle photos yet</strong><span>Your latest photo will also appear on the dashboard.</span></div>}
       </div>
     </section>
 
@@ -56,7 +56,7 @@ export default async function VehiclePage({params}:{params:Promise<{id:string}>}
     {repairCases.length > 0 && <section className="mb-9" aria-labelledby="repair-cases-heading">
       <div className="mb-4">
         <h2 className="text-xl font-semibold" id="repair-cases-heading">Repair journeys</h2>
-        <p className="mt-1 text-sm text-muted">Follow each reported problem from diagnosis through completed work.</p>
+        <p className="mt-1 text-sm text-muted">Follow each reported symptom from diagnosis through completed work.</p>
       </div>
       <div className="grid gap-3 md:grid-cols-2">
         {repairCases.slice(0,4).map((repairCase)=><Link className="card flex min-h-32 items-start justify-between gap-4 p-5 transition hover:border-[#b9d7d1]" href={`/vehicles/${id}/repairs/${repairCase.id}`} key={repairCase.id}>

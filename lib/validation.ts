@@ -21,8 +21,8 @@ export const maintenanceSchema = z.object({
 export type MaintenanceFields = z.infer<typeof maintenanceSchema>;
 
 export const symptomSchema = z.object({
-  title: z.string().trim().min(3, "Describe the problem").max(160), firstNoticed: z.iso.date(), mileage: z.number().int().min(0).max(10_000_000),
-  severity: z.enum(["low", "medium", "high"]), frequency: z.enum(["once", "intermittent", "constant"]),
+  title: z.string().trim().min(3, "Enter a short symptom title").max(160), firstNoticed: z.iso.date(), mileage: z.number().int().min(0).max(10_000_000),
+  severity: z.enum(["low", "medium", "high"], { error: "Choose how urgent this feels" }), frequency: z.enum(["once", "intermittent", "constant"]),
   description: z.string().trim().min(10, "Add a little more detail").max(5000), warningLight: z.boolean(),
 });
 export type SymptomFields = z.infer<typeof symptomSchema>;

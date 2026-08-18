@@ -19,7 +19,7 @@ export const repairCaseLabels: Record<RepairCaseStatus, string> = {
 };
 
 export const repairJourneySteps = [
-  "Problem logged",
+  "Symptom logged",
   "Diagnosis",
   "Estimate",
   "Repair",
