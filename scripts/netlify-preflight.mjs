@@ -26,6 +26,11 @@ if (!localMode && siteUrl.protocol !== "https:") {
   process.exit(1);
 }
 
+if (!localMode && (siteUrl.hostname === "localhost" || siteUrl.hostname === "127.0.0.1")) {
+  console.error("NEXT_PUBLIC_SITE_URL must use the public Netlify hostname, not localhost.");
+  process.exit(1);
+}
+
 if (supabaseUrl.protocol !== "https:") {
   console.error("NEXT_PUBLIC_SUPABASE_URL must use HTTPS.");
   process.exit(1);

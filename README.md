@@ -68,7 +68,7 @@ For native password recovery, add `garagebook://reset-password` to Supabase **Au
    - `202608150001_repair_completion.sql` for invoice metadata and repair-record completion gates.
    - `202608150004_shop_discovery.sql` for securely saving Google Places listings to a user's private shop collection.
    - `202608150005_dashboard_tour.sql` so dashboard-tour completion follows a user across devices.
-5. In Supabase Auth URL configuration, set the site URL to `http://localhost:3000` and add `http://localhost:3000/auth/callback` as a redirect URL.
+5. In Supabase **Authentication → URL Configuration**, keep the deployed GarageBook URL as the **Site URL**. Add both `http://localhost:3000/auth/callback` and the deployed `/auth/callback` URL to **Redirect URLs**.
 6. Run `npm run dev`.
 
 ```env
@@ -106,6 +106,8 @@ Private storage paths use `<owner-id>/<vehicle-id>/<generated-name>`. Storage po
 ## Deployment
 
 For the web beta, connect the repository to Netlify. The committed `netlify.toml` runs an environment preflight and then uses Netlify’s automatically maintained Next.js adapter; do not add a legacy runtime plugin. Add the production environment variables in Netlify, then add the final production origin to Supabase Auth and the Google Maps browser-key restrictions. Follow `DEPLOYMENT_CHECKLIST.md` for the exact setup and production Auth, SMTP, RLS, storage, location, and tour checks. For the staged tester rollout, follow `BETA_TESTING.md`; the mobile project includes an EAS `preview` profile for internal Android and iOS builds.
+
+For the current beta, set `NEXT_PUBLIC_SITE_URL=https://garagebook-beta.netlify.app` in Netlify. In Supabase, set **Site URL** to that same origin and add `https://garagebook-beta.netlify.app/auth/callback` as an allowed redirect. Existing confirmation emails retain their old destination, so send a new confirmation email after correcting these settings.
 
 ## Deferred features
 

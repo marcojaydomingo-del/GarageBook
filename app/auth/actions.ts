@@ -2,6 +2,7 @@
 import { redirect } from "next/navigation";
 import { createClient } from "@/lib/supabase/server";
 import { safeInternalPath } from "@/lib/domain/navigation";
+import { getAuthSiteOrigin } from "@/lib/auth-site-url";
 import { authSchema, passwordResetRequestSchema, passwordUpdateSchema, signupSchema } from "@/lib/validation";
 
 export interface AuthState { error?: string; message?: string }
@@ -13,12 +14,12 @@ export async function login(_: AuthState, formData: FormData): Promise<AuthState
 export async function signup(_: AuthState, formData: FormData): Promise<AuthState> {
   const parsed = signupSchema.safeParse({ fullName: formData.get("fullName"), email: formData.get("email"), password: formData.get("password") });
   if (!parsed.success) return { error: parsed.error.issues[0]?.message };
-  const supabase = await createClient(); const siteUrl=process.env.NEXT_PUBLIC_SITE_URL ?? "http://localhost:3000"; const { data, error } = await supabase.auth.signUp({ email: parsed.data.email, password: parsed.data.password, options: { data: { full_name: parsed.data.fullName, onboarding_completed: false }, emailRedirectTo: `${siteUrl}/auth/callback?next=${encodeURIComponent("/onboarding")}` } });
+  const supabase = await createClient(); const siteUrl=await getAuthSiteOrigin(); const { data, error } = await supabase.auth.signUp({ email: parsed.data.email, password: parsed.data.password, options: { data: { full_name: parsed.data.fullName, onboarding_completed: false }, emailRedirectTo: `${siteUrl}/auth/callback?next=${encodeURIComponent("/onboarding")}` } });
   if (error) return { error: "We couldn’t create this account. If you already signed up, try logging in." }; if (!data.session) return { message: "Check your email to confirm your account. We’ll continue with your first vehicle afterward." }; redirect("/onboarding");
 }
 export async function requestPasswordReset(_:AuthState,formData:FormData):Promise<AuthState>{
   const parsed=passwordResetRequestSchema.safeParse({email:formData.get("email")});if(!parsed.success)return{error:parsed.error.issues[0]?.message};
-  const supabase=await createClient();const siteUrl=process.env.NEXT_PUBLIC_SITE_URL??"http://localhost:3000";
+  const supabase=await createClient();const siteUrl=await getAuthSiteOrigin();
   const {error}=await supabase.auth.resetPasswordForEmail(parsed.data.email,{redirectTo:`${siteUrl}/auth/callback?next=${encodeURIComponent("/reset-password")}`});
   if(error)return{error:"We couldn’t send the reset email. Try again."};
   return{message:"If an account exists for that email, a password reset link is on its way."};
