@@ -17,6 +17,15 @@ export async function signup(_: AuthState, formData: FormData): Promise<AuthStat
   const supabase = await createClient(); const siteUrl=await getAuthSiteOrigin(); const { data, error } = await supabase.auth.signUp({ email: parsed.data.email, password: parsed.data.password, options: { data: { full_name: parsed.data.fullName, onboarding_completed: false }, emailRedirectTo: `${siteUrl}/auth/callback?next=${encodeURIComponent("/onboarding")}` } });
   if (error) return { error: "We couldn’t create this account. If you already signed up, try logging in." }; if (!data.session) return { message: "Check your email to confirm your account. We’ll continue with your first vehicle afterward." }; redirect("/onboarding");
 }
+export async function resendSignupConfirmation(_:AuthState,formData:FormData):Promise<AuthState>{
+  const parsed=passwordResetRequestSchema.safeParse({email:formData.get("email")});
+  if(!parsed.success)return{error:parsed.error.issues[0]?.message};
+  const supabase=await createClient();const siteUrl=await getAuthSiteOrigin();
+  const {error}=await supabase.auth.resend({type:"signup",email:parsed.data.email,options:{emailRedirectTo:`${siteUrl}/auth/callback?next=${encodeURIComponent("/onboarding")}`}});
+  if(error?.status===429||error?.code==="over_email_send_rate_limit")return{error:"Too many confirmation emails were requested. Wait a few minutes, then try again."};
+  if(error&&error.code!=="user_not_found")return{error:"We couldn’t send the confirmation email. Check your connection and try again."};
+  return{message:"If an unconfirmed account exists for that email, a new confirmation link is on its way."};
+}
 export async function requestPasswordReset(_:AuthState,formData:FormData):Promise<AuthState>{
   const parsed=passwordResetRequestSchema.safeParse({email:formData.get("email")});if(!parsed.success)return{error:parsed.error.issues[0]?.message};
   const supabase=await createClient();const siteUrl=await getAuthSiteOrigin();
