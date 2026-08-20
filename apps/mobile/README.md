@@ -1,6 +1,6 @@
-# GarageBook mobile
+# OTTOKO mobile
 
-GarageBook mobile is the native Expo/React Native client for iOS and Android. It uses the same Supabase Auth, PostgreSQL data, private storage, and Row Level Security policies as the Next.js application.
+OTTOKO mobile is the native Expo/React Native client for iOS and Android. It uses the same Supabase Auth, PostgreSQL data, private storage, and Row Level Security policies as the Next.js application.
 
 ## Available tester flows
 

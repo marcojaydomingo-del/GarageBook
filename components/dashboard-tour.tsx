@@ -11,7 +11,7 @@ const subscribeToHydration = () => () => undefined;
 
 const steps = [
   { target: '[data-tour="vehicle"]', title: "Your vehicle at a glance", description: "See current mileage, documented status, the next service, and any open symptoms in one place." },
-  { target: '[data-tour="journey"]', title: "Follow the whole repair journey", description: "GarageBook connects the symptom, shop, estimate, repair, invoice, and final history." },
+  { target: '[data-tour="journey"]', title: "Follow the whole repair journey", description: "OTTOKO connects the symptom, shop, estimate, repair, invoice, and final history." },
   { target: '[data-tour="history"]', title: "A trustworthy vehicle history", description: "Maintenance, repairs, symptoms, mileage, and documents all appear on one timeline." },
   { target: '[data-tour="actions"]', title: "Record what happens next", description: "Add service, log a symptom, or open your vehicle photo gallery from these quick actions." },
   { target: '[data-tour="reminders"]', title: "Stay ahead of service", description: "Use reminders to plan work by date or mileage before it becomes urgent." },

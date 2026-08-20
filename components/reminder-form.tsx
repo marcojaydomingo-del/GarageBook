@@ -51,7 +51,7 @@ export function ReminderForm({ vehicleId, currentMileage, returnTo }: { vehicleI
         {errors.dueMileage && <p className="field-error" role="alert">{errors.dueMileage.message}</p>}
       </div>
 
-      <p className="text-sm leading-6 text-muted sm:col-span-2">Use a date, mileage, or both. GarageBook will mark the reminder due when either limit is reached.</p>
+      <p className="text-sm leading-6 text-muted sm:col-span-2">Use a date, mileage, or both. OTTOKO will mark the reminder due when either limit is reached.</p>
       <div className="flex justify-end gap-3 border-t border-[#edf0ed] pt-5 sm:col-span-2">
         <button className="btn btn-secondary" onClick={router.back} type="button">Cancel</button>
         <button className="btn btn-primary" disabled={pending} type="submit">{pending ? "Saving…" : "Save reminder"}</button>

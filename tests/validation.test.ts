@@ -1,7 +1,7 @@
 import { describe, expect, it } from "vitest";
 import { documentDeleteSchema, documentUploadSchema, estimateSchema, maintenanceSchema, reminderSchema, shopSchema, symptomSchema, vehicleSchema } from "../lib/validation";
 
-describe("GarageBook validation", () => {
+describe("OTTOKO validation", () => {
   it("accepts a valid vehicle", () => {
     const result = vehicleSchema.parse({ year: 2014, make: "MINI", model: "Paceman", trim: "ALL4", mileage: 121450, vin: "", color: "Green" });
     expect(result.year).toBe(2014); expect(result.mileage).toBe(121450);

@@ -88,7 +88,7 @@ export default async function Dashboard({searchParams}:DashboardProps){
 
 function PlannerRow({icon:Icon,tone,label,value,href,action}:{icon:React.ComponentType<{size?:number}>;tone:"amber"|"orange";label:string;value:string;href:string;action:string}){return <article className={`planner-row planner-${tone}`}><span className="planner-icon"><Icon size={21}/></span><div><p>{label}</p><h3>{value}</h3></div><Link href={href}>{action}<ArrowRight size={16}/></Link></article>}
 
-function PlannerSetup({vehicleId}:{vehicleId:string}){return <div className="planner-setup"><div><CalendarClock size={24}/><h3>Plan what comes next</h3><p>Add a service reminder or record a symptom when you notice one. GarageBook reports only what you document.</p></div><div><Link className="btn btn-primary" href={`/vehicles/${vehicleId}/reminders/new`}>Schedule service</Link><Link className="btn btn-secondary" href={`/vehicles/${vehicleId}/symptoms/new`}>Log a symptom</Link></div></div>}
+function PlannerSetup({vehicleId}:{vehicleId:string}){return <div className="planner-setup"><div><CalendarClock size={24}/><h3>Plan what comes next</h3><p>Add a service reminder or record a symptom when you notice one. OTTOKO reports only what you document.</p></div><div><Link className="btn btn-primary" href={`/vehicles/${vehicleId}/reminders/new`}>Schedule service</Link><Link className="btn btn-secondary" href={`/vehicles/${vehicleId}/symptoms/new`}>Log a symptom</Link></div></div>}
 
 function RepairRibbon({status,title,vehicleId,caseId}:{status:RepairCaseStatus|null;title?:string;vehicleId:string;caseId?:string}){
   const current=status?getRepairJourneyStep(status):-1;

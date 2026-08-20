@@ -120,7 +120,7 @@ export function ShopExplorer({ apiKey, savedShops }: { apiKey: string; savedShop
   const selected = shops.find((shop) => shop.googlePlaceId === selectedId);
   return <section className="shop-explorer" aria-labelledby="find-shops-heading">
     <div className="shop-search-bar">
-      <div><h2 id="find-shops-heading">Find a mechanic nearby</h2><p>Search Google Maps, compare the area, then save only the shops you want in GarageBook.</p></div>
+      <div><h2 id="find-shops-heading">Find a mechanic nearby</h2><p>Search Google Maps, compare the area, then save only the shops you want in OTTOKO.</p></div>
       <form onSubmit={submitSearch}>
         <label className="sr-only" htmlFor="shop-location">City, ZIP code, or address</label>
         <span className="shop-search-input"><Search aria-hidden="true" size={17}/><input id="shop-location" value={query} onChange={(event)=>setQuery(event.target.value)} placeholder="City, ZIP code, or address"/></span>
@@ -157,7 +157,7 @@ export function ShopExplorer({ apiKey, savedShops }: { apiKey: string; savedShop
       </div>
       <div className={`shop-map-wrap ${mobileView==="list"?"shop-mobile-hidden":""}`}>
         <div className="shop-map" ref={mapElement}/>
-        {!apiKey&&<div className="shop-map-overlay"><strong>Map setup needed</strong><p>Add the browser map key to `.env.local`, then restart GarageBook.</p></div>}
+        {!apiKey&&<div className="shop-map-overlay"><strong>Map setup needed</strong><p>Add the browser map key to `.env.local`, then restart OTTOKO.</p></div>}
         {apiKey&&!shops.length&&<div className="shop-map-overlay shop-map-idle"><MapIcon size={24}/><strong>Map appears after your search</strong><p>Enter a location or use your current location to find nearby repair shops.</p></div>}
         {selected&&<div className="shop-map-selection"><span>{isSavedShop(selected,savedShops)?"In My Shops":"Selected shop"}</span><strong>{selected.name}</strong><small>{selected.address}</small></div>}
         <small className="shop-map-credit">Shop data from Google Maps</small>

@@ -1,4 +1,4 @@
-# GarageBook beta launch
+# OTTOKO beta launch
 
 ## Recommended launch order
 
@@ -23,7 +23,7 @@
 
 - Create or choose an Expo account/project and link `apps/mobile` to it.
 - Add the Supabase URL and publishable key to the EAS `preview` environment.
-- Add `garagebook://reset-password` to Supabase Auth redirect URLs.
+- Add `ottoko://reset-password` to Supabase Auth redirect URLs.
 - For iOS internal distribution, use a paid Apple Developer account and register every tester device before the build.
 - For later store testing, create the app records in App Store Connect and Google Play Console.
 
@@ -49,7 +49,7 @@ Ask every tester to complete these tasks with a test vehicle:
 - Anything they expected to exist but could not find.
 - Any error message, including a screenshot and approximate time.
 - Device, operating system, and browser/app build.
-- Whether they would trust GarageBook with their real vehicle history and why.
+- Whether they would trust OTTOKO with their real vehicle history and why.
 
 ## Current beta boundaries
 

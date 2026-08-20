@@ -1,6 +1,6 @@
-# GarageBook
+# OTTOKO
 
-GarageBook is a secure, data-backed vehicle maintenance and repair history foundation built with standard Next.js App Router, TypeScript, Tailwind CSS, and Supabase.
+OTTOKO is a secure, data-backed vehicle maintenance and repair history foundation built with standard Next.js App Router, TypeScript, Tailwind CSS, and Supabase.
 
 ## Architecture
 
@@ -54,7 +54,7 @@ The initial native vertical slice includes:
 
 To run it, copy `apps/mobile/.env.example` to `apps/mobile/.env.local`, enter the same Supabase URL and publishable key used by the web app, then run `npm run mobile`. Press `i` for the iOS Simulator or `a` for an Android emulator. Expo SDK 57 requires Node 22.13 or newer.
 
-For native password recovery, add `garagebook://reset-password` to Supabase **Authentication → URL Configuration → Redirect URLs**. Production App Store and Play Store builds should later replace or supplement this custom scheme with verified universal/app links.
+For native password recovery, add `ottoko://reset-password` to Supabase **Authentication → URL Configuration → Redirect URLs**. Production App Store and Play Store builds should later replace or supplement this custom scheme with verified universal/app links.
 
 ## Local setup
 
@@ -68,7 +68,7 @@ For native password recovery, add `garagebook://reset-password` to Supabase **Au
    - `202608150001_repair_completion.sql` for invoice metadata and repair-record completion gates.
    - `202608150004_shop_discovery.sql` for securely saving Google Places listings to a user's private shop collection.
    - `202608150005_dashboard_tour.sql` so dashboard-tour completion follows a user across devices.
-5. In Supabase **Authentication → URL Configuration**, keep the deployed GarageBook URL as the **Site URL**. Add both `http://localhost:3000/auth/callback` and the deployed `/auth/callback` URL to **Redirect URLs**.
+5. In Supabase **Authentication → URL Configuration**, keep the deployed OTTOKO URL as the **Site URL**. Add both `http://localhost:3000/auth/callback` and the deployed `/auth/callback` URL to **Redirect URLs**.
 6. Run `npm run dev`.
 
 ```env

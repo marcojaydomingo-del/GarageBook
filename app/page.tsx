@@ -48,7 +48,7 @@ export default function Home() {
           <nav className="landing-account" aria-label="Account navigation">
             <ThemeToggle />
             <Link href="/login">Log in</Link>
-            <Link className="landing-nav-cta" href="/signup">Get GarageBook free</Link>
+            <Link className="landing-nav-cta" href="/signup">Get OTTOKO free</Link>
           </nav>
         </div>
       </header>
@@ -56,13 +56,13 @@ export default function Home() {
       <section className="landing-hero" aria-labelledby="landing-title">
         <div className="landing-hero-inner">
           <div className="landing-hero-card">
-            <span className="landing-hero-flag" aria-label="GarageBook">
-              <span><b>Garage</b></span><span><b>Book</b></span>
+            <span className="landing-hero-flag" aria-label="OTTOKO">
+              <span><b>OTTO</b></span><span><b>KO</b></span>
             </span>
             <h1 id="landing-title">Everything about <span>your car.<br />One garage.</span></h1>
             <p>Maintenance, repairs, symptoms, receipts, and history—together.</p>
             <div className="landing-hero-actions">
-              <Link className="landing-button landing-button-dark" href="/signup">Get GarageBook free <ArrowRight size={17} /></Link>
+              <Link className="landing-button landing-button-dark" href="/signup">Get OTTOKO free <ArrowRight size={17} /></Link>
               <Link className="landing-button landing-button-ghost" href="/demo">Explore sample garage <ArrowRight size={17} /></Link>
             </div>
           </div>
@@ -147,8 +147,8 @@ export default function Home() {
             <h2>Simple pricing.</h2>
             <div className="landing-pricing-cards">
               <article>
-                <h3>GarageBook Beta</h3><span>Free during beta testing</span><strong>{pricing.free.price}</strong><p>Create your garage, document maintenance and repairs, upload records, and help shape what comes next.</p>
-                <Link className="landing-button landing-button-dark" href="/signup">Get GarageBook free <ArrowRight size={16} /></Link>
+                <h3>OTTOKO Beta</h3><span>Free during beta testing</span><strong>{pricing.free.price}</strong><p>Create your garage, document maintenance and repairs, upload records, and help shape what comes next.</p>
+                <Link className="landing-button landing-button-dark" href="/signup">Get OTTOKO free <ArrowRight size={16} /></Link>
               </article>
             </div>
           </div>
@@ -157,7 +157,7 @@ export default function Home() {
 
       <section className="landing-final-cta">
         <div><h2>Everything about your car. One garage.</h2><p>Keep every vehicle and record in one organized place.</p></div>
-        <Link className="landing-button landing-button-dark" href="/signup">Get GarageBook free <ArrowRight size={17} /></Link>
+        <Link className="landing-button landing-button-dark" href="/signup">Get OTTOKO free <ArrowRight size={17} /></Link>
       </section>
 
       <footer className="landing-footer">

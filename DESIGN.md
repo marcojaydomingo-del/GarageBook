@@ -1,5 +1,5 @@
 ---
-name: GarageBook
+name: OTTOKO
 description: A connected, evidence-first vehicle history workspace.
 colors:
   service-amber: "#f3bd3d"
@@ -58,13 +58,13 @@ components:
     padding: "20px"
 ---
 
-# Design System: GarageBook
+# Design System: OTTOKO
 
 ## Overview
 
 **Creative North Star: "The Service Ledger Cockpit"**
 
-GarageBook combines the clarity of a durable service ledger with the decisive hierarchy of an automotive cockpit. Large, connected regions replace generic card grids: vehicle identity, scheduled service, the repair journey, and chronological evidence each occupy a recognizable place.
+OTTOKO combines the clarity of a durable service ledger with the decisive hierarchy of an automotive cockpit. Large, connected regions replace generic card grids: vehicle identity, scheduled service, the repair journey, and chronological evidence each occupy a recognizable place.
 
 The interface is warm and practical in daylight and becomes a low-glare charcoal workspace at night. Amber identifies service and action, while teal is reserved for documented health and confirmation.
 
@@ -84,7 +84,7 @@ The palette pairs service amber with warm neutrals; health teal remains semantic
 
 ## Typography
 
-GarageBook uses Geist as a compact workhorse across headings, controls, measurements, and body copy. Display headings are bold and tightly tracked; operational labels remain small but never faint.
+OTTOKO uses Geist as a compact workhorse across headings, controls, measurements, and body copy. Display headings are bold and tightly tracked; operational labels remain small but never faint.
 
 **The Measurement Rule.** Mileage and costs may use stronger scale, but never mimic gauges or automotive-instrument decoration.
 

@@ -259,7 +259,7 @@ export async function completeDocumentUpload(input:unknown):Promise<ActionState>
   if(estimateId){const {data:estimate}=await auth.supabase.from("estimates").select("id").eq("id",estimateId).eq("vehicle_id",vehicleId).eq("repair_case_id",repairCaseId).maybeSingle();if(!estimate)return{error:"Estimate not found."}}
   if(maintenanceRecordId){const {data:record}=await auth.supabase.from("maintenance_records").select("id").eq("id",maintenanceRecordId).eq("vehicle_id",vehicleId).maybeSingle();if(!record)return{error:"Repair record not found."};const {data:repairCase}=await auth.supabase.from("repair_cases").select("id").eq("id",repairCaseId).eq("maintenance_record_id",maintenanceRecordId).maybeSingle();if(!repairCase)return{error:"This repair record is not connected to the case."}}
   const {error}=await auth.supabase.from("documents").insert({owner_id:auth.user.id,vehicle_id:vehicleId,repair_case_id:repairCaseId,estimate_id:estimateId,maintenance_record_id:maintenanceRecordId,document_type:documentType,storage_path:storagePath,file_name:fileName,mime_type:mimeType,file_size_bytes:fileSize});
-  if(error){await auth.supabase.storage.from("vehicle-documents").remove([storagePath]);return{error:"The file uploaded, but GarageBook couldn’t save its document record. Please try again."}}
+  if(error){await auth.supabase.storage.from("vehicle-documents").remove([storagePath]);return{error:"The file uploaded, but OTTOKO couldn’t save its document record. Please try again."}}
   revalidatePath("/dashboard");revalidatePath(`/vehicles/${vehicleId}`);if(repairCaseId)revalidatePath(`/vehicles/${vehicleId}/repairs/${repairCaseId}`);
   return{success:"Document uploaded and connected."};
 }

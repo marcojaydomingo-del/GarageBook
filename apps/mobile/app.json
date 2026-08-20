@@ -1,21 +1,22 @@
 {
   "expo": {
-    "name": "GarageBook",
-    "slug": "garagebook",
+    "name": "OTTOKO",
+    "slug": "ottoko",
     "version": "1.0.0",
     "platforms": [
       "ios",
       "android"
     ],
     "icon": "./assets/images/icon.png",
-    "scheme": "garagebook",
+    "scheme": "ottoko",
     "userInterfaceStyle": "automatic",
     "ios": {
-      "icon": "./assets/expo.icon",
-      "bundleIdentifier": "com.garagebook.app",
+      "icon": "./assets/images/icon.png",
+      "bundleIdentifier": "com.ottoko.app",
       "supportsTablet": true
     },
     "android": {
+      "icon": "./assets/images/icon.png",
       "adaptiveIcon": {
         "backgroundColor": "#f3bd3d",
         "foregroundImage": "./assets/images/android-icon-foreground.png",
@@ -23,7 +24,7 @@
         "monochromeImage": "./assets/images/android-icon-monochrome.png"
       },
       "predictiveBackGestureEnabled": true,
-      "package": "com.garagebook.app"
+      "package": "com.ottoko.app"
     },
     "plugins": [
       "expo-router",
@@ -39,7 +40,7 @@
       [
         "expo-image-picker",
         {
-          "photosPermission": "GarageBook uses your selected photos to build your private vehicle history.",
+          "photosPermission": "OTTOKO uses your selected photos to build your private vehicle history.",
           "microphonePermission": false
         }
       ]

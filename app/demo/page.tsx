@@ -9,7 +9,7 @@ import { sampleVehicle, timelineEvents } from "@/lib/sample-data";
 
 export const metadata: Metadata = {
   title: "Sample Garage",
-  description: "Explore a populated, read-only GarageBook vehicle history before creating an account.",
+  description: "Explore a populated, read-only OTTOKO vehicle history before creating an account.",
 };
 
 export default function DemoPage() {

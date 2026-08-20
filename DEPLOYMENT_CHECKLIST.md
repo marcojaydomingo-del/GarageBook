@@ -1,10 +1,10 @@
-# GarageBook deployment checklist
+# OTTOKO deployment checklist
 
 ## Netlify hosting
 
-GarageBook includes `netlify.toml` for the build command, `.next` publish directory, and Node 22. Netlify supports the App Router, Server Actions, route handlers, and middleware automatically through its maintained OpenNext adapter; do not install or pin a legacy adapter.
+OTTOKO includes `netlify.toml` for the build command, `.next` publish directory, and Node 22. Netlify supports the App Router, Server Actions, route handlers, and middleware automatically through its maintained OpenNext adapter; do not install or pin a legacy adapter.
 
-Use a Git-connected deployment for GarageBook. A drag-and-drop static-folder deployment cannot run its Server Actions, authentication middleware, route handlers, or private document routes.
+Use a Git-connected deployment for OTTOKO. A drag-and-drop static-folder deployment cannot run its Server Actions, authentication middleware, route handlers, or private document routes.
 
 1. Push this repository to GitHub, GitLab, Bitbucket, or Azure DevOps.
 2. In Netlify, choose **Add new project → Import an existing project** and select the repository.

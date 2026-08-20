@@ -13,13 +13,13 @@ import {
 
 export function LandingDashboardPreview() {
   return (
-    <div className="landing-device-pair" aria-label="GarageBook web and mobile dashboard previews">
-      <div className="landing-laptop" aria-label="GarageBook web dashboard preview">
+    <div className="landing-device-pair" aria-label="OTTOKO web and mobile dashboard previews">
+      <div className="landing-laptop" aria-label="OTTOKO web dashboard preview">
         <div className="landing-laptop-frame"><DesktopDashboardScreen /></div>
         <div className="landing-laptop-base" aria-hidden="true" />
       </div>
       <div className="landing-phone-wrap">
-        <div className="landing-phone" aria-label="GarageBook mobile dashboard preview">
+        <div className="landing-phone" aria-label="OTTOKO mobile dashboard preview">
           <div className="landing-phone-speaker" aria-hidden="true" />
           <DashboardScreen />
         </div>
@@ -32,7 +32,7 @@ function DesktopDashboardScreen() {
   return (
     <div className="landing-desktop-screen">
       <aside className="landing-desktop-sidebar">
-        <strong>GarageBook</strong>
+        <strong>OTTOKO</strong>
         <nav aria-label="Desktop dashboard preview navigation">
           <span className="active"><LayoutDashboard size={11} />Dashboard</span>
           <span><CarFront size={11} />Vehicles</span>
@@ -74,7 +74,7 @@ function DashboardScreen() {
   return (
     <div className="landing-phone-screen">
         <div className="landing-phone-bar">
-          <span className="landing-phone-brand">GarageBook</span>
+          <span className="landing-phone-brand">OTTOKO</span>
           <span className="landing-phone-avatar">JD</span>
         </div>
         <div className="landing-phone-intro">

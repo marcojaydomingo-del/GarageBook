@@ -15,7 +15,7 @@ export default async function OnboardingPage(){
         <div className="onboarding-progress"><span className="active">1</span><i/><span>2</span><small>Vehicle</small><small>Current state</small></div>
         <div className="onboarding-time"><Clock3 size={15}/>About two minutes</div>
         <h1>Give this vehicle an honest starting point.</h1>
-        <p>Welcome, {firstName}. Older vehicles rarely arrive with a perfect history. Start with what you know today; GarageBook will keep future evidence connected from here.</p>
+        <p>Welcome, {firstName}. Older vehicles rarely arrive with a perfect history. Start with what you know today; OTTOKO will keep future evidence connected from here.</p>
         <ul>
           <li><Gauge size={18}/><span><strong>Current mileage</strong><small>Anchors future maintenance, symptoms, and reminders.</small></span></li>
           <li><Wrench size={18}/><span><strong>Known history</strong><small>Add recent work when you have it. Unknown history can stay unknown.</small></span></li>

@@ -4,21 +4,21 @@
 
 ## Platform
 
-Web plus a native Expo/React Native client for iOS and Android. The responsive Next.js application remains the release foundation; the native client reuses Supabase, ownership rules, validation concepts, and domain behavior while following each operating system's navigation and interaction conventions.
+adaptive
 
 ## Users
 
-GarageBook is for vehicle owners who want a durable, organized record of their vehicles’ maintenance and repair history. The launch audience is intentionally broad rather than limited to enthusiasts, professional mechanics, or owners of a particular vehicle type.
+OTTOKO is for vehicle owners who want a durable, organized record of their vehicles’ maintenance and repair history. The launch audience is intentionally broad rather than limited to enthusiasts, professional mechanics, or owners of a particular vehicle type.
 
 ## Product Purpose
 
-GarageBook helps vehicle owners understand and preserve the history of each vehicle. It should help them stay ahead of documented maintenance needs, reduce uncertainty during repairs, and maintain trustworthy records that can be used with repair shops or during a future sale.
+OTTOKO helps vehicle owners understand and preserve the history of each vehicle. It should help them stay ahead of documented maintenance needs, reduce uncertainty during repairs, and maintain trustworthy records that can be used with repair shops or during a future sale.
 
 Success means an owner can capture a vehicle’s history as work happens and later retrieve a clear, credible account without reconstructing it from scattered receipts, memories, messages, and shop paperwork.
 
 ## Positioning
 
-GarageBook’s differentiating mechanism is a connected repair journey:
+OTTOKO’s differentiating mechanism is a connected repair journey:
 
 **Symptom → shop → estimate → repair → invoice → warranty → vehicle history**
 
@@ -26,7 +26,7 @@ The product is intended to preserve the context between these stages rather than
 
 ## Operating Context
 
-Owners use GarageBook before, during, and after vehicle service. They may log a symptom when it appears, record mileage, associate a repair shop and estimate, document completed maintenance or repair, upload invoices and photos, track warranty information, and review the resulting chronological history later.
+Owners use OTTOKO before, during, and after vehicle service. They may log a symptom when it appears, record mileage, associate a repair shop and estimate, document completed maintenance or repair, upload invoices and photos, track warranty information, and review the resulting chronological history later.
 
 The records are private by default. A future vehicle-passport capability may allow an owner to intentionally share selected vehicle history, but the exact sharing model remains undecided.
 
@@ -46,7 +46,7 @@ The records are private by default. A future vehicle-passport capability may all
 
 ## Brand Commitments
 
-- The working product name is **GarageBook**.
+- The working product name is **OTTOKO**.
 - The working product mechanism is the connected repair journey described above.
 - Owner records are private by default.
 - A shareable vehicle passport is a future product direction, not a currently delivered claim.

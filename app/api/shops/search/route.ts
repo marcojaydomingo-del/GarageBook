@@ -48,6 +48,6 @@ export async function POST(request: Request) {
     }
     return NextResponse.json({ shops: normalizeGooglePlaces(await response.json()) }, { headers: { "Cache-Control": "private, no-store" } });
   } catch {
-    return NextResponse.json({ error: "GarageBook could not reach the shop directory. Try again." }, { status: 502 });
+    return NextResponse.json({ error: "OTTOKO could not reach the shop directory. Try again." }, { status: 502 });
   }
 }

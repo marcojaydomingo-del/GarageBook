@@ -43,7 +43,7 @@ export default async function OnboardingCompletePage({searchParams}:{searchParam
         </div>
       </section>
 
-      <div className="baseline-finish"><div><strong>Your starting snapshot can stay incomplete.</strong><p>GarageBook separates documented facts from unknown history and never treats missing records as proof of mechanical condition.</p></div><form action={completeOnboarding}><button className="btn btn-primary btn-lg" type="submit">Finish and open dashboard <ArrowRight size={17}/></button></form></div>
+      <div className="baseline-finish"><div><strong>Your starting snapshot can stay incomplete.</strong><p>OTTOKO separates documented facts from unknown history and never treats missing records as proof of mechanical condition.</p></div><form action={completeOnboarding}><button className="btn btn-primary btn-lg" type="submit">Finish and open dashboard <ArrowRight size={17}/></button></form></div>
     </div>
   </main>;
 }
